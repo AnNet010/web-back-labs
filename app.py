@@ -1,15 +1,28 @@
 from flask import Flask
 app = Flask(__name__)
 
-@app.route("/")
-def start():
-    return """<!doctype html> \
+@app.route("/web")
+def web():
+    return """<!doctype html>
         <html>
             <body>
-                <h1>web-сервер на flask</h1> \
-            </body> \
+                <h1>web-сервер на flask</h1>
+                <a href="/author">Автор</a>
+            </body>
         </html>"""
     
-        
-"web-сервер на flask"
+@app.route("/author")    
+def author():
+    name = "Боброва Анна Антоновна"
+    group = "ФБИ-31"
+    faculty = "ФБ"
 
+    return """<!doctype html>
+        <html>
+            <body>
+                <p>Студент: """ + name + """</p>
+                <p>Группа: """ + group + """</p>
+                <p>Факультет: """ + faculty + """</p>
+                <a href="/web">web</a>
+            </body>
+        </html>"""
