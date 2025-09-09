@@ -34,9 +34,13 @@ def author():
 @app.route("/image")    
 def image():
     path = url_for("static", filename="oak.png")
-    return '''
+    css_path = url_for("static", filename="lab1.css")
+    return f'''
 <!doctype html>
 <html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{css_path}">
+    </head>
     <body>
         <h1>Дуб</h1>
         <img src="''' + path + '''">
@@ -64,9 +68,18 @@ def counter():
         Дата и время: ''' + time + '''<br>
         Запрошенный адрес: ''' + url + '''<br>
         Ваш IP адрес: ''' + client_ip + '''<br>
+        <a href="/counter/reset">Сбросить счётчик</a>
     </body>
 </html>
 '''
+
+@app.route("/counter/reset")
+def reset_counter():
+    global count
+    count = 0
+    return redirect("/counter")
+
+
 
 @app.route("/info")
 def info():
