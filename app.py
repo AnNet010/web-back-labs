@@ -198,3 +198,57 @@ def error_405():
 @app.route("/error/418")
 def error_418():
     return "418 I'm a teapot - я — чайник", 418
+
+
+# обработчик, который вызывает ошибку 500
+@app.route("/error/500")
+def error_500():
+    # тут специально делаем что-то недопустимое
+    return 10 / 0   # деление на ноль вызывает Internal Server Error (500)
+
+
+# перехватчик ошибки 500
+@app.errorhandler(500)
+def server_error(err):
+    return '''
+<!doctype html>
+<html>
+    <head>
+        <title>500 - Внутренняя ошибка сервера</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #fff3f3;
+                text-align: center;
+                padding: 50px;
+            }
+            h1 {
+                color: #cc0000;
+                font-size: 40px;
+            }
+            p {
+                font-size: 20px;
+            }
+            a {
+                display: inline-block;
+                margin-top: 20px;
+                padding: 10px 20px;
+                background: #ffcccc;
+                border-radius: 8px;
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+            }
+            a:hover {
+                background: #ff9999;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>500 — Внутренняя ошибка сервера</h1>
+        <p>На сервере произошла ошибка 😿</p>
+        <p>Мы уже работаем над её устранением.</p>
+        <a href="/">Вернуться на главную</a>
+    </body>
+</html>
+''', 500
