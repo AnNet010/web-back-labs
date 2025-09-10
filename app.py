@@ -47,6 +47,24 @@ def lab1_index():
             веб-приложений, сознательно предоставляющих лишь самые базовые возможности.
         </p>
         <p><a href="/">На главную</a></p>
+
+        <h2>Список роутов</h2>
+        <ul>
+            <li><a href="/lab1/web">/lab1/web</a></li>
+            <li><a href="/lab1/author">/lab1/author</a></li>
+            <li><a href="/lab1/image">/lab1/image</a></li>
+            <li><a href="/lab1/counter">/lab1/counter</a></li>
+            <li><a href="/lab1/counter/reset">/lab1/counter/reset</a></li>
+            <li><a href="/lab1/info">/lab1/info</a></li>
+            <li><a href="/lab1/created">/lab1/created</a></li>
+            <li><a href="/error/400">/error/400</a></li>
+            <li><a href="/error/401">/error/401</a></li>
+            <li><a href="/error/402">/error/402</a></li>
+            <li><a href="/error/403">/error/403</a></li>
+            <li><a href="/error/405">/error/405</a></li>
+            <li><a href="/error/418">/error/418</a></li>
+            <li><a href="/error/500">/error/500</a></li>
+        </ul>
     </body>
 </html>
 '''
@@ -95,7 +113,12 @@ def image():
         <img src="''' + path + '''">
     </body>
 </html>
-'''
+''', 200, {
+        "Content-Language": "ru",
+        "X-Author": "Anna Bobrova",
+        "X-Course": "Web-Programming",
+        "X-Group": "FBI-31"
+}
 
 count = 0
 
