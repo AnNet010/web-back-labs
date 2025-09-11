@@ -169,12 +169,39 @@ def created():
 </html>
 ''', 201
 
+log_404 = []
+
 @app.errorhandler(404)
 def not_found(err):
     css_path = url_for("static", filename="error404.css")
     cat1 = url_for("static", filename="errorcat1.png")
     cat2 = url_for("static", filename="errorcat2.png")
     error_img = url_for("static", filename="error404.png")
+
+    ip = request.remote_addr
+    url = request.url
+    now = datetime.datetime.now().strftime("%d.%m.%Y %H:%M:%S")
+
+    entry = {"time": now, "ip": ip, "url": url}
+    log_404.append(entry)
+
+    log_html = """
+    <table style="width:100%; border-collapse:collapse; margin-top:15px; font-family:monospace;">
+        <tr style="background:#f0f0f0;">
+            <th style="border:1px solid #ccc; padding:5px;">Дата и время</th>
+            <th style="border:1px solid #ccc; padding:5px;">Пользователь (IP)</th>
+            <th style="border:1px solid #ccc; padding:5px;">Адрес</th>
+        </tr>
+    """
+    for record in reversed(log_404):
+        log_html += f"""
+        <tr>
+            <td style="border:1px solid #ccc; padding:5px;">{record['time']}</td>
+            <td style="border:1px solid #ccc; padding:5px;">{record['ip']}</td>
+            <td style="border:1px solid #ccc; padding:5px;">{record['url']}</td>
+        </tr>
+        """
+    log_html += "</table>"
 
     return f'''
 <!doctype html>
@@ -192,6 +219,11 @@ def not_found(err):
         <h1>Упс! Страница потерялась...</h1>
         <p>Но не переживай, котики уже ищут её 🐾</p>
         <a href="/">Вернуться на главную</a>
+
+        <div style="margin-top:80px;">
+            <h2>Журнал обращений:</h2>
+            {log_html}
+        </div>
     </body>
 </html>
 ''', 404
@@ -223,14 +255,11 @@ def error_418():
     return "418 I'm a teapot - я — чайник", 418
 
 
-# обработчик, который вызывает ошибку 500
 @app.route("/error/500")
 def error_500():
-    # тут специально делаем что-то недопустимое
-    return 10 / 0   # деление на ноль вызывает Internal Server Error (500)
+    return 10 / 0
 
 
-# перехватчик ошибки 500
 @app.errorhandler(500)
 def server_error(err):
     return '''
@@ -275,3 +304,4 @@ def server_error(err):
     </body>
 </html>
 ''', 500
+
