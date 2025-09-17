@@ -254,11 +254,9 @@ def error_405():
 def error_418():
     return "418 I'm a teapot - я — чайник", 418
 
-
 @app.route("/error/500")
 def error_500():
     return 10 / 0
-
 
 @app.errorhandler(500)
 def server_error(err):
