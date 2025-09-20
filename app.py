@@ -229,7 +229,6 @@ def not_found(err):
 ''', 404
 
 
-
 @app.route("/error/400")
 def error_400():
     return "400 Bad Request - неправильный, некорректный запрос", 400
