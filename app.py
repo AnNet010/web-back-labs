@@ -316,17 +316,36 @@ flower_list = ['роза', 'тюльпан', 'незабудка', 'ромашк
 @app.route('/lab2/add_flower/<name>')
 def add_flower(name):
     flower_list.append(name)
-    return f'''
-<!doctype html>
-<html>
-    <body>
-    <h1>Добавлен новый цветок</h1>
-    <p>Название нового цветка: {name} </p>
-    <p>Всего цветов: {len(flower_list)}</p>
-    <p>Полный список: {flower_list}</p>
-    </body>
-</html>
-'''
+    return render_template(
+        'add.html',
+        name=name,
+        count=len(flower_list),
+        flowers=flower_list
+    )
+
+@app.route('/lab2/add_flower/')
+def add_flower_no_name():
+    return render_template('noName.html'), 400
+
+
+@app.route('/lab2/flowers/')
+def show_flowers():
+    return render_template('list.html', flowers=flower_list, count=len(flower_list))
+
+
+@app.route('/lab2/flowers/<int:flower_id>')
+def show_flower(flower_id):
+    if 0 <= flower_id < len(flower_list):
+        flower = flower_list[flower_id]
+        return render_template('flower.html', flower=flower, flower_id=flower_id)
+    else:
+        return render_template('flower.html', flower=None, flower_id=flower_id), 404
+
+@app.route('/lab2/clear/')
+def clear():
+    flower_list.clear()
+    return render_template('clear.html', count=len(flower_list))
+
 
 @app.route('/lab2/example')
 def example():
