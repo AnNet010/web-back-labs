@@ -396,3 +396,19 @@ def calc_one():
 @app.route('/lab2/calc/<int:a>')
 def calc_single(a):
     return redirect(url_for('calc', a=a, b=1))
+
+@app.route('/lab2/books/')
+def show_books():
+    books = [
+        {"title": "Война и мир", "author": "Лев Толстой", "genre": "Роман", "pages": 1225},
+        {"title": "Преступление и наказание", "author": "Фёдор Достоевский", "genre": "Роман", "pages": 671},
+        {"title": "Мастер и Маргарита", "author": "Михаил Булгаков", "genre": "Фантастика", "pages": 470},
+        {"title": "Анна Каренина", "author": "Лев Толстой", "genre": "Роман", "pages": 864},
+        {"title": "Вишневый сад", "author": "Антон Чехов", "genre": "Драма", "pages": 96},
+        {"title": "Горе от ума", "author": "Александр Грибоедов", "genre": "Комедия", "pages": 256},
+        {"title": "451 градус по Фаренгейту", "author": "Рэй Брэдбери", "genre": "Фантастика", "pages": 249},
+        {"title": "Гарри Поттер и философский камень", "author": "Джоан Роулинг", "genre": "Фэнтези", "pages": 223},
+        {"title": "Гамлет", "author": "Уильям Шекспир", "genre": "Драма", "pages": 224},
+        {"title": "1984", "author": "Джордж Оруэлл", "genre": "Антиутопия", "pages": 328},
+    ]
+    return render_template('books.html', books=books)
