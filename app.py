@@ -362,7 +362,6 @@ def delete_flower(flower_id):
     else:
         abort(404)
 
-
 @app.route('/lab2/add_flower_form')
 def add_flower_form():
     name = request.args.get('name')
