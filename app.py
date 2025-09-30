@@ -373,8 +373,6 @@ def add_flower_form():
     flower_list.append({'name': name, 'price': price})
     return redirect(url_for('show_flowers'))
 
-
-
 @app.route('/lab2/example')
 def example():
     name = 'Анна Боброва'
@@ -415,7 +413,6 @@ def calc(a, b):
         div=division,
         pow=a**b
     )
-
 
 @app.route('/lab2/calc/')
 def calc_one():
