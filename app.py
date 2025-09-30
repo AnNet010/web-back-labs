@@ -19,6 +19,7 @@ def index():
             <nav>
                 <ul>
                     <li><a href="/lab1">Первая лабораторная</a></li>
+                    <li><a href="/lab2">Вторая лабораторная</a></li>
                 </ul>
             </nav>
         </main>
@@ -310,15 +311,22 @@ def a():
 def a2():
     return 'со слэшем'
 
+flower_list = [
+    {'name': 'роза', 'price': 300},
+    {'name': 'тюльпан', 'price': 310},
+    {'name': 'незабудка', 'price': 320},
+    {'name': 'ромашка', 'price': 330},
+    {'name': 'георгин', 'price': 300},
+    {'name': 'гладиолус', 'price': 310},
+]
 
-flower_list = ['роза', 'тюльпан', 'незабудка', 'ромашка']
-
-@app.route('/lab2/add_flower/<name>')
-def add_flower(name):
-    flower_list.append(name)
+@app.route('/lab2/add_flower/<name>/<int:price>')
+def add_flower(name, price):
+    flower_list.append({'name': name, 'price': price})
     return render_template(
         'add.html',
         name=name,
+        price=price,
         count=len(flower_list),
         flowers=flower_list
     )
@@ -345,6 +353,27 @@ def show_flower(flower_id):
 def clear():
     flower_list.clear()
     return render_template('clear.html', count=len(flower_list))
+
+@app.route('/lab2/flowers/delete/<int:flower_id>')
+def delete_flower(flower_id):
+    if 0 <= flower_id < len(flower_list):
+        flower_list.pop(flower_id)
+        return redirect(url_for('show_flowers'))
+    else:
+        abort(404)
+
+
+@app.route('/lab2/add_flower_form')
+def add_flower_form():
+    name = request.args.get('name')
+    price = request.args.get('price', type=int)
+
+    if not name or price is None:
+        return render_template('noName.html'), 400
+
+    flower_list.append({'name': name, 'price': price})
+    return redirect(url_for('show_flowers'))
+
 
 
 @app.route('/lab2/example')
