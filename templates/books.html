@@ -1,70 +1,58 @@
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Список книг</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f4f7;
-            display: flex;
-            justify-content: center;
-            margin: 0;
-            padding: 40px 0;
-        }
-        .container {
-            max-width: 800px;
-            background: #fff;
-            border-radius: 12px;
-            padding: 30px 40px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #27ae60;
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-        th, td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #3498db;
-            color: white;
-        }
-        tr:hover {
-            background-color: #e1f5fe;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Список книг</h1>
-        <table>
-            <tr>
-                <th>Название</th>
-                <th>Автор</th>
-                <th>Жанр</th>
-                <th>Страниц</th>
-            </tr>
-            {% for book in books %}
-            <tr>
-                <td>{{ book.title }}</td>
-                <td>{{ book.author }}</td>
-                <td>{{ book.genre }}</td>
-                <td>{{ book.pages }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-        <p style="text-align:center; margin-top:20px;">
-            <a href="/lab2/" style="text-decoration:none; color:white; background:#3498db; padding:10px 15px; border-radius:8px;">← На главную</a>
-        </p>
-    </div>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block lab %}Список книг{% endblock %}
+
+{% block main %}
+<style>
+    .container {
+        max-width: 800px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px 40px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        margin: auto;
+    }
+    h1 {
+        text-align: center;
+        color: #3498db;
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        text-align: left;
+    }
+    th {
+        background-color: #3498db;
+        color: white;
+    }
+    tr:hover {
+        background-color: #e1f5fe;
+    }
+</style>
+
+<div class="container">
+    <h1>Список книг</h1>
+    <table>
+        <tr>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Жанр</th>
+            <th>Страниц</th>
+        </tr>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.genre }}</td>
+            <td>{{ book.pages }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

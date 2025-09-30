@@ -1,58 +1,18 @@
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Информация о цветке</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        .container {
-            max-width: 600px;
-            padding: 20px;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #4CAF50;
-        }
-        p {
-            font-size: 18px;
-            margin: 8px 0;
-        }
-        .error h1 {
-            color: #e74c3c;
-        }
-        a {
-            display: inline-block;
-            margin-top: 15px;
-            text-decoration: none;
-            color: #fff;
-            background: #4CAF50;
-            padding: 10px 15px;
-            border-radius: 8px;
-        }
-        a:hover {
-            background: #45a049;
-        }
-    </style>
-</head>
-<body>
-    <div class="container {% if not flower %}error{% endif %}">
-        {% if flower %}
-            <h1>Информация о цветке</h1>
-            <p><b>ID цветка:</b> {{ flower_id }}</p>
-            <p><b>Название:</b> {{ flower }}</p>
-        {% else %}
-            <h1>Ошибка</h1>
-            <p>Цветок с таким ID не найден.</p>
-        {% endif %}
+{% extends "base.html" %}
 
-        <a href="/lab2/flowers/">← Вернуться к списку всех цветов</a>
-    </div>
-</body>
-</html>
+{% block lab %}Цветок{% endblock %}
+
+{% block main %}
+<div class="container">
+    {% if flower %}
+        <h1>Информация о цветке</h1>
+        <p><b>ID цветка:</b> {{ flower_id }}</p>
+        <p><b>Название:</b> {{ flower.name }}</p>
+        <p><b>Цена:</b> {{ flower.price }} &#x20bd;</p>
+    {% else %}
+        <h1 style="color:#e74c3c;">Ошибка</h1>
+        <p>Цветок с таким ID не найден.</p>
+    {% endif %}
+    <a href="{{ url_for('show_flowers') }}" class="btn">← Вернуться к списку всех цветов</a>
+</div>
+{% endblock %}

@@ -16,8 +16,8 @@ header {
 }
 
 main {
-    max-width: 900px;
-    margin: 40px auto 100px auto;
+    max-width: 1300px;
+    margin: 40px auto 140px auto;
     padding: 30px;
     background: #e6f2ff;
     border-radius: 16px;
@@ -25,18 +25,70 @@ main {
     line-height: 1.8;
     font-size: 1.15em;
     transition: transform 0.2s ease;
+    padding-bottom: 90px;
 }
 
 
 footer {
-    padding: 10px 20px;
-    background: linear-gradient(135deg, #a29bfe, #74b9ff);
+    padding: 25px;
+    background: linear-gradient(135deg, #74b9ff, #a29bfe);
     color: #fff;
+    font-size: 1.3em;
+    font-weight: bold;
     text-align: center;
-    font-size: 0.95em;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
+    letter-spacing: 1px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.main-nav {
+    margin-top: 10px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(0,0,0,0.2);
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin: 0 6px;
+    transition: background 0.3s;
+    font-size: 0.9em;
+}
+
+.main-nav a:hover {
+    background: rgba(0,0,0,0.35);
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 50px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #5daeff;
+    border-radius: 8px;
+    transition: background 0.3s, transform 0.2s;
+    font-size: 1em;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+}
+
+.btn-clear {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 6px 12px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #e74c3c;
+    border-radius: 6px;
+    transition: background 0.3s, transform 0.2s;
+    font-size: 0.9em;
+}
+
+.btn-clear:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
 }
