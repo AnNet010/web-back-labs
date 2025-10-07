@@ -4,35 +4,6 @@ import datetime
 
 lab1 = Blueprint('lab1', __name__)
 
-
-@lab1.route("/")
-@lab1.route("/index")
-def index():
-    return '''
-<!doctype html>
-<html>
-    <head>
-        <title>НГТУ, ФБ, Лабораторные работы</title>
-    </head>
-    <body>
-        <header>
-            <h1>НГТУ, ФБ, WEB-программирование, часть 2. Список лабораторных</h1>
-        </header>
-        <main>
-            <nav>
-                <ul>
-                    <li><a href="/lab1">Первая лабораторная</a></li>
-                    <li><a href="/lab2">Вторая лабораторная</a></li>
-                </ul>
-            </nav>
-        </main>
-        <footer>
-            <p>Боброва Анна Антоновна, ФБИ-31, 3 курс, 2025</p>
-        </footer>
-    </body>
-</html>
-'''
-
 @lab1.route("/lab1")
 def lab1_index():
     return '''
