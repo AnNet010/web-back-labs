@@ -4,17 +4,112 @@
 
 {% block main %}
 
+<style>
+    form {
+        max-width: 400px;
+        margin: 30px auto;
+        padding: 20px 30px;
+        background: #f9f9fb;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    label {
+        display: block;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 5px;
+        margin-top: 15px;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        box-sizing: border-box;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus {
+        border-color: #7b5cff;
+        box-shadow: 0 0 5px rgba(123, 92, 255, 0.4);
+        outline: none;
+    }
+
+    button {
+        margin-top: 20px;
+        background: linear-gradient(90deg, #7b5cff, #8e8ffa);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        transition: 0.3s ease;
+    }
+
+    button:hover {
+        background: linear-gradient(90deg, #6a4aff, #7a7cff);
+        transform: scale(1.02);
+    }
+
+    .error {
+        display: block;
+        color: #e63946;
+        font-size: 13px;
+        font-style: italic;
+        margin-top: 3px;
+        margin-left: 2px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    h2 {
+        text-align: center;
+        color: #555;
+    }
+
+    .result {
+        text-align: center;
+        margin-top: 40px;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    .result div {
+        margin: 5px 0;
+        font-size: 17px;
+    }
+
+    .result a {
+        display: inline-block;
+        margin-top: 15px;
+        color: #7b5cff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .result a:hover {
+        text-decoration: underline;
+    }
+</style>
+
     {% if user %}
+        <div class="result">
+            <h1>Привет, {{ user }}!</h1>
+            <h2>Добро пожаловать на наш сайт!</h2>
 
-    <h1>Привет, {{ user }}!</h1>
-    <h2>Добро пожаловать на наш сайт!</h2>
-
-    <div>ваш возраст: {{ age }}</div>
-    <div>ваш пол: {{ 'мужской' if sex == 'male' else 'женский'}}</div>
-    <div>
-        <a href="/lab3/form1">Заново</a>
-    </div>
-
+            <div>ваш возраст: {{ age }}</div>
+            <div>ваш пол: {{ 'мужской' if sex == 'male' else 'женский'}}</div>
+            <div><a href="/lab3/form1">Заново</a></div>
+            
     {% else %}
 
     <h1>Пользователь</h1>
@@ -22,19 +117,21 @@
     <form>
         <label>Ваше имя:</label>
         <div>
-            <input type="text" placeholder="как вас зовут?" name="user">
+            <input type="text" placeholder="как вас зовут?" name="user" value="{{ user or '' }}">
+            <span class="error">{{ errors.user }}</span>
         </div>
 
         <label>Ваш возраст:</label>
         <div>
-            <input type="number" name="age">
+            <input type="number" name="age" value="{{ age or '' }}">
+            <span class="error">{{ errors.age }}</span>
         </div>
 
         <label>Ваш пол:</label>
         <div>
             <select name="sex">
-                <option value="male">мужчина</option>
-                <option value="female">женщина</option>
+                <option value="male" {{ sex == 'male' and 'selected' }}>мужчина</option>
+                <option value="female" {{ sex == 'female' and 'selected' }}>женщина</option>
             </select>
         </div>
 
