@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+
+<style>
+    body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f4f5f7;
+    }
+
+    form {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 25px 30px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+        font-size: 24px;
+    }
+
+    div {
+        margin-top: 15px;
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f9f9fb;
+        border: 1px solid #e0e0e0;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    label:hover {
+        background: #f0efff;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+        margin-right: 8px;
+    }
+
+    .price {
+        font-weight: 600;
+        color: #555;
+    }
+
+    .total {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 20px;
+        color: #333;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 25px;
+        background: linear-gradient(90deg, #7b5cff, #8e8ffa);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    button:hover {
+        background: linear-gradient(90deg, #6a4aff, #7a7cff);
+        transform: scale(1.02);
+    }
+</style>
+
+
+    <h1>Заказ напитка</h1>
+
+    <form action="/lab3/pay">
+        <div>Напиток:</div>
+        <label>
+            <span><input type="radio" name="drink" value="coffee">Кофе</span>
+            <span class="price">120 ₽</span>
+        </label>
+        <label>
+            <span><input type="radio" name="drink" value="black-tea">Черный чай</span>
+            <span class="price">80 ₽</span>
+        </label>
+        <label>
+            <span><input type="radio" name="drink" value="green-tea">Зеленый чай</span>
+            <span class="price">70 ₽</span>
+        </label>
+
+        <div>Добавки:</div>
+        <label>
+            <span><input type="checkbox" name="milk"> Молоко</span>
+            <span class="price">+30 ₽</span>
+        </label>
+        <label>
+            <span><input type="checkbox" name="sugar">Сахар</span>
+            <span class="price">+10 ₽</span>
+        </label>
+
+        <div class="total">Итого: <span id="total">0</span> ₽</div>
+        <input type="hidden" id="price-input" name="price" value="0">
+
+
+        <button type="submit">Заказать</button>
+    </form>
+
+    <script>
+    const prices = {
+        'coffee': 120,
+        'black-tea': 80,
+        'green-tea': 70,
+        'milk': 30,
+        'sugar': 10
+    };
+
+    const total = document.getElementById('total');
+    const priceInput = document.getElementById('price-input');
+    const form = document.querySelector('form');
+
+    function updateTotal() {
+        let checkedDrink = form.querySelector('input[name="drink"]:checked');
+        let sum = 0;
+
+        if (checkedDrink) {
+            sum += prices[checkedDrink.value];
+        }
+
+        if (form.querySelector('input[name="milk"]').checked) sum += prices['milk'];
+        if (form.querySelector('input[name="sugar"]').checked) sum += prices['sugar'];
+
+        total.textContent = sum;
+        priceInput.value = sum;
+    }
+    updateTotal();
+
+    form.addEventListener('change', updateTotal);
+</script>
+
+
+{% endblock %}

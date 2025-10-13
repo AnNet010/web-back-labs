@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+
+<style>
+    .success-message {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px;
+        text-align: center;
+        background: #f9f9fb;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    .success-message h1 {
+        color: #2a9d8f;
+        margin-bottom: 20px;
+    }
+
+    .success-message p {
+        font-size: 18px;
+        margin-bottom: 25px;
+    }
+
+    .success-message a {
+        text-decoration: none;
+        color: #7b5cff;
+        font-weight: 500;
+        border: 1px solid #7b5cff;
+        padding: 8px 15px;
+        border-radius: 8px;
+        transition: 0.3s ease;
+    }
+
+    .success-message a:hover {
+        background: #7b5cff;
+        color: white;
+    }
+</style>
+
+<div class="success-message">
+    <h1>Спасибо!</h1>
+    <p>Ваш заказ оплачен на сумму {{ price }} рублей, ожидайте доставку.</p>
+    <a href="/lab3/order">Сделать новый заказ</a>
+</div>
+
+{% endblock %}

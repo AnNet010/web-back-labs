@@ -39,4 +39,50 @@ def form1():
     sex = request.args.get('sex')
     return render_template('lab3/form1.html', user=user, age=age, sex=sex, errors=errors)
 
+@lab3.route('/lab3/order')
+def order():
+    return render_template('lab3/order.html')
 
+@lab3.route('/lab3/pay')
+def pay():
+    pay_error = {}
+
+    price = 0
+    drink = request.args.get('drink')
+    if drink == 'coffee':
+        price = 120
+    elif drink == 'black-tea':
+        price = 80
+    else:
+        price = 70
+    
+    if request.args.get('milk') == 'on':
+        price += 30
+    if request.args.get('sugar') == 'on':
+        price += 10
+
+    card = request.args.get('card')
+    name = request.args.get('name')
+    cvv = request.args.get('CVV')
+
+    if not card:
+        pay_error['card'] = 'Заполните поле!'
+    if not name:
+        pay_error['name'] = 'Заполните поле!'
+    if not cvv:
+        pay_error['cvv'] = 'Заполните поле!'
+
+    if card and name and cvv:
+        return redirect(f"/lab3/success?price={price}")
+
+    return render_template('lab3/pay.html',
+                           price=price,
+                           pay_error=pay_error,
+                           card=card,
+                           name=name,
+                           cvv=cvv)
+
+@lab3.route('/lab3/success')
+def success():
+    price = request.args.get('price', 0)
+    return render_template('lab3/success.html', price=price)
