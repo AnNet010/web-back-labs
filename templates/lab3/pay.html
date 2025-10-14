@@ -104,24 +104,30 @@
         Сумма к оплате: {{ price }}
     </div>
 
-    <form action="/lab3/success">
+    <form>
          <input type="hidden" name="price" value="{{ price }}">
         <div>Номер банковской карты:</div>
         <label>
             <input type="text" name="card" pattern="\d{16}" value="{{ card or '' }}">
-            <span class="error">{{ errors_card }}</span>
+            {% if pay_error.card %}
+                <span class="error">{{ pay_error.card }}</span>
+            {% endif %}
         </label>
 
         <div>Имя держателя карты:</div>
         <label>
             <input type="text" name="name" value="{{ name or '' }}">
-            <span class="error">{{ errors_name }}</span>
+            {% if pay_error.name %}
+                <span class="error">{{ pay_error.name }}</span>
+            {% endif %}
         </label>
 
         <div>Номер CVV:</div>
         <label>
             <input type="text" name="CVV" size="3" pattern="\d{3}" value="{{ cvv or '' }}">
-            <span class="error">{{ errors_cvv }}</span>
+            {% if pay_error.cvv %}
+                <span class="error">{{ pay_error.cvv }}</span>
+            {% endif %}
         </label>
 
         <div>

@@ -18,9 +18,8 @@
         <div>
             <label class="label" for="fontsize">Выберите размер шрифта:</label>
             <select id="fontsize" name="fontsize">
-                <option value="">По умолчанию</option>
+                <option value="" {% if not fontsize %}selected{% endif %}>По умолчанию (16px)</option>
                 <option value="14px" {% if fontsize == '14px' %}selected{% endif %}>14 px</option>
-                <option value="16px" {% if fontsize == '16px' %}selected{% endif %}>16 px</option>
                 <option value="18px" {% if fontsize == '18px' %}selected{% endif %}>18 px</option>
                 <option value="20px" {% if fontsize == '20px' %}selected{% endif %}>20 px</option>
             </select>

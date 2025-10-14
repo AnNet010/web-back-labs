@@ -4,17 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Анна Боброва. {% block lab %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lab1/main.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}?v=2">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <style>
+        body {
+            {% if request.cookies.get('color') %}
+            color: {{ request.cookies.get('color') }};
+            {% endif %}
+
+            {% if request.cookies.get('bgcolor') %}
+            background-color: {{ request.cookies.get('bgcolor') }};
+            {% endif %}
+
+            {% if request.cookies.get('fontsize') %}
+            font-size: {{ request.cookies.get('fontsize') }};
+            {% endif %}
+
+            {% if request.cookies.get('fontstyle') %}
+            font-style: {{ request.cookies.get('fontstyle') }};
+            {% endif %}
+        }
+    </style>
 </head>
 <body>
     <header>
         WEB-программирование, часть 2. {{ self.lab() }}
         <nav class="main-nav">
             <a href="{{ url_for('index') }}">🏠 Главное меню</a>
-            <!-- <a href="{{ url_for('lab2.lab') }}">🌸 На главную</a> -->
         </nav>
     </header>
     
