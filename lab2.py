@@ -25,7 +25,7 @@ flower_list = [
 def add_flower(name, price):
     flower_list.append({'name': name, 'price': price})
     return render_template(
-        'add.html',
+        'lab2/add.html',
         name=name,
         price=price,
         count=len(flower_list),
@@ -34,26 +34,26 @@ def add_flower(name, price):
 
 @lab2.route('/lab2/add_flower/')
 def add_flower_no_name():
-    return render_template('noName.html'), 400
+    return render_template('lab2/noName.html'), 400
 
 
 @lab2.route('/lab2/flowers/')
 def show_flowers():
-    return render_template('list.html', flowers=flower_list, count=len(flower_list))
+    return render_template('lab2/list.html', flowers=flower_list, count=len(flower_list))
 
 
 @lab2.route('/lab2/flowers/<int:flower_id>')
 def show_flower(flower_id):
     if 0 <= flower_id < len(flower_list):
         flower = flower_list[flower_id]
-        return render_template('flower.html', flower=flower, flower_id=flower_id)
+        return render_template('lab2/flower.html', flower=flower, flower_id=flower_id)
     else:
-        return render_template('flower.html', flower=None, flower_id=flower_id), 404
+        return render_template('lab2/flower.html', flower=None, flower_id=flower_id), 404
 
 @lab2.route('/lab2/clear/')
 def clear():
     flower_list.clear()
-    return render_template('clear.html', count=len(flower_list))
+    return render_template('lab2/clear.html', count=len(flower_list))
 
 @lab2.route('/lab2/flowers/delete/<int:flower_id>')
 def delete_flower(flower_id):
@@ -69,7 +69,7 @@ def add_flower_form():
     price = request.args.get('price', type=int)
 
     if not name or price is None:
-        return render_template('noName.html'), 400
+        return render_template('lab2/noName.html'), 400
 
     flower_list.append({'name': name, 'price': price})
     return redirect(url_for('lab2.show_flowers'))
@@ -87,25 +87,25 @@ def example():
         {'name': 'мандарины', 'price': 95},
         {'name': 'манго', 'price': 321}
     ]
-    return render_template('example.html', 
+    return render_template('lab2/example.html', 
                             name=name, lab_number=lab_number, group=group,
                             course=course, fruits=fruits)
 
 @lab2.route('/lab2/')
 def lab():
-    return render_template('lab2.html')
+    return render_template('lab2/lab2.html')
 
 @lab2.route('/lab2/filters')
 def filters():
     phrase = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
-    return render_template('filter.html', phrase = phrase)
+    return render_template('lab2/filter.html', phrase = phrase)
 
 
 @lab2.route('/lab2/calc/<int:a>/<int:b>')
 def calc(a, b):
     division = a / b if b != 0 else None 
     return render_template(
-        'calc.html',
+        'lab2/calc.html',
         a=a,
         b=b,
         sum=a+b,
@@ -137,7 +137,7 @@ def show_books():
         {"title": "Гамлет", "author": "Уильям Шекспир", "genre": "Драма", "pages": 224},
         {"title": "1984", "author": "Джордж Оруэлл", "genre": "Антиутопия", "pages": 328},
     ]
-    return render_template('books.html', books=books)
+    return render_template('lab2/books.html', books=books)
 
 @lab2.route('/lab2/cats/')
 def cats():
@@ -163,4 +163,4 @@ def cats():
         {"name": "Оцикет", "img": "ocicat.jpg", "desc": "Редкая порода, похожа на дикого оцелота."},
         {"name": "Корниш-рекс", "img": "cornish.jpg", "desc": "Имеет мягкую волнистую шерсть."}
     ]
-    return render_template('cats.html', cats=cats_list)
+    return render_template('lab2/cats.html', cats=cats_list)
