@@ -4,9 +4,10 @@ lab3 = Blueprint('lab3', __name__)
 
 @lab3.route('/lab3/')
 def lab():
-    name = request.cookies.get('name')
-    name_color = request.cookies.get('name_color')
-    return render_template('lab3/lab3.html', name=name, name_color=name_color)
+    name = request.cookies.get('name') or 'аноним'
+    age = request.cookies.get('age') or 'неизвестный'
+    name_color = request.cookies.get('name_color') or 'blue'
+    return render_template('lab3/lab3.html', name=name, age=age, name_color=name_color)
 
 @lab3.route('/lab3/cookie')
 def cookie():
@@ -48,31 +49,40 @@ def pay():
 
     price = 0
     drink = request.args.get('drink')
-    if drink == 'coffee':
-        price = 120
-    elif drink == 'black-tea':
-        price = 80
-    else:
-        price = 70
+    price = request.args.get('price', type=int, default=0)
     
-    if request.args.get('milk') == 'on':
-        price += 30
-    if request.args.get('sugar') == 'on':
-        price += 10
+    if drink:
+        if drink == 'coffee':
+            price = 120
+        elif drink == 'black-tea':
+            price = 80
+        elif drink == 'green-tea':
+            price = 70
+        
+        if request.args.get('milk') == 'on':
+            price += 30
+        if request.args.get('sugar') == 'on':
+            price += 10
+    
+    if price == 0:
+        return redirect('/lab3/order')
 
     card = request.args.get('card')
     name = request.args.get('name')
     cvv = request.args.get('CVV')
 
-    if not card:
-        pay_error['card'] = 'Заполните поле!'
-    if not name:
-        pay_error['name'] = 'Заполните поле!'
-    if not cvv:
-        pay_error['cvv'] = 'Заполните поле!'
 
-    if card and name and cvv:
-        return redirect(f"/lab3/success?price={price}")
+    if request.args.get('card') is not None or request.args.get('name') is not None or request.args.get('CVV') is not None:
+
+        if not card:
+            pay_error['card'] = 'Заполните поле!'
+        if not name:
+            pay_error['name'] = 'Заполните поле!'
+        if not cvv:
+            pay_error['cvv'] = 'Заполните поле!'
+
+        if card and name and cvv and not pay_error:
+            return redirect(f"/lab3/success?price={price}")
 
     return render_template('lab3/pay.html',
                            price=price,
@@ -92,16 +102,16 @@ def settings():
     bgcolor = request.args.get('bgcolor')
     fontsize = request.args.get('fontsize')
     fontstyle = request.args.get('fontstyle')
-    
-    if color or bgcolor or fontsize or fontstyle:
+
+    if color is not None or bgcolor is not None or fontsize is not None or fontstyle is not None:
         resp = make_response(redirect('/lab3/settings'))
-        if color:
+        if color is not None:
             resp.set_cookie('color', color)
-        if bgcolor:
+        if bgcolor is not None:
             resp.set_cookie('bgcolor', bgcolor)
-        if fontsize:
+        if fontsize is not None:
             resp.set_cookie('fontsize', fontsize)
-        if fontstyle:
+        if fontstyle is not None:
             resp.set_cookie('fontstyle', fontstyle)
         return resp
     
