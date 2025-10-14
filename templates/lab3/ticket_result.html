@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+
+<style>
+    .ticket {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 25px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 15px;
+        color: white;
+        font-family: "Segoe UI", sans-serif;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .ticket-header {
+        text-align: center;
+        margin-bottom: 25px;
+        border-bottom: 2px dashed rgba(255,255,255,0.3);
+        padding-bottom: 15px;
+    }
+
+    .ticket-header h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .ticket-type {
+        display: inline-block;
+        background: #ff6b6b;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    .ticket-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .info-group {
+        margin-bottom: 15px;
+    }
+
+    .info-label {
+        font-size: 12px;
+        opacity: 0.8;
+        margin-bottom: 5px;
+    }
+
+    .info-value {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .ticket-price {
+        text-align: center;
+        background: rgba(255,255,255,0.1);
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    .price-label {
+        font-size: 14px;
+        opacity: 0.8;
+        margin-bottom: 5px;
+    }
+
+    .price-value {
+        font-size: 32px;
+        font-weight: bold;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 25px;
+        color: white;
+        text-decoration: none;
+        opacity: 0.8;
+        transition: opacity 0.3s;
+    }
+
+    .back-link:hover {
+        opacity: 1;
+        text-decoration: underline;
+    }
+</style>
+
+    <div class="ticket">
+        <div class="ticket-header">
+            <h1>Железнодорожный билет</h1>
+            <div class="ticket-type">{{ ticket_type }}</div>
+        </div>
+
+        <div class="ticket-info">
+            <div class="info-group">
+                <div class="info-label">Пассажир</div>
+                <div class="info-value">{{ fio }}</div>
+            </div>
+            <div class="info-group">
+                <div class="info-label">Возраст</div>
+                <div class="info-value">{{ age }} лет</div>
+            </div>
+            <div class="info-group">
+                <div class="info-label">Маршрут</div>
+                <div class="info-value">{{ departure }} → {{ destination }}</div>
+            </div>
+            <div class="info-group">
+                <div class="info-label">Дата</div>
+                <div class="info-value">{{ date }}</div>
+            </div>
+            <div class="info-group">
+                <div class="info-label">Полка</div>
+                <div class="info-value">
+                    {% if shelf == 'lower' %}Нижняя
+                    {% elif shelf == 'upper' %}Верхняя
+                    {% elif shelf == 'upper-side' %}Верхняя боковая
+                    {% elif shelf == 'lower-side' %}Нижняя боковая
+                    {% endif %}
+                </div>
+            </div>
+            <div class="info-group">
+                <div class="info-label">Бельё</div>
+                <div class="info-value">{{ 'Да' if linen == 'yes' else 'Нет' }}</div>
+            </div>
+            <div class="info-group">
+                <div class="info-label">Багаж</div>
+                <div class="info-value">{{ 'Да' if baggage == 'yes' else 'Нет' }}</div>
+            </div>
+            <div class="info-group">
+                <div class="info-label">Страховка</div>
+                <div class="info-value">{{ 'Да' if insurance == 'yes' else 'Нет' }}</div>
+            </div>
+        </div>
+
+        <div class="ticket-price">
+            <div class="price-label">Итого к оплате</div>
+            <div class="price-value">{{ total_price }} ₽</div>
+        </div>
+
+        <a href="/lab3/ticket" class="back-link">Оформить новый билет</a>
+    </div>
+{% endblock %}

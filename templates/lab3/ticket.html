@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+
+<style>
+    form {
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 25px;
+        background: #f9f9fb;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 8px;
+    }
+
+    input[type="text"], input[type="number"], input[type="date"], select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        box-sizing: border-box;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus {
+        border-color: #7b5cff;
+        box-shadow: 0 0 5px rgba(123, 92, 255, 0.4);
+        outline: none;
+    }
+
+    .radio-group, .checkbox-group {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .radio-option, .checkbox-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 25px;
+        background: linear-gradient(90deg, #7b5cff, #8e8ffa);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    button:hover {
+        background: linear-gradient(90deg, #6a4aff, #7a7cff);
+        transform: scale(1.02);
+    }
+
+    .error {
+        display: block;
+        color: #e63946;
+        font-size: 13px;
+        font-style: italic;
+        margin-top: 5px;
+    }
+</style>
+
+    <h1>Железнодорожный билет</h1>
+
+    <form>
+        <div class="form-group">
+            <label>ФИО пассажира:</label>
+            <input type="text" name="fio" value="{{ fio or '' }}" placeholder="Введите ФИО">
+            {% if errors.fio %}<span class="error">{{ errors.fio }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Полка:</label>
+            <select name="shelf">
+                <option value="">Выберите полку</option>
+                <option value="lower" {{ shelf == 'lower' and 'selected' }}>Нижняя</option>
+                <option value="upper" {{ shelf == 'upper' and 'selected' }}>Верхняя</option>
+                <option value="upper-side" {{ shelf == 'upper-side' and 'selected' }}>Верхняя боковая</option>
+                <option value="lower-side" {{ shelf == 'lower-side' and 'selected' }}>Нижняя боковая</option>
+            </select>
+            {% if errors.shelf %}<span class="error">{{ errors.shelf }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>С бельём:</label>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" name="linen" value="yes" {{ linen == 'yes' and 'checked' }}>
+                    <span>Да</span>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="linen" value="no" {{ linen == 'no' and 'checked' }}>
+                    <span>Нет</span>
+                </div>
+            </div>
+            {% if errors.linen %}<span class="error">{{ errors.linen }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>С багажом:</label>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" name="baggage" value="yes" {{ baggage == 'yes' and 'checked' }}>
+                    <span>Да</span>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="baggage" value="no" {{ baggage == 'no' and 'checked' }}>
+                    <span>Нет</span>
+                </div>
+            </div>
+            {% if errors.baggage %}<span class="error">{{ errors.baggage }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Возраст:</label>
+            <input type="number" name="age" value="{{ age or '' }}" min="1" max="120" placeholder="Введите возраст">
+            {% if errors.age %}<span class="error">{{ errors.age }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Пункт выезда:</label>
+            <input type="text" name="departure" value="{{ departure or '' }}" placeholder="Откуда">
+            {% if errors.departure %}<span class="error">{{ errors.departure }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Пункт назначения:</label>
+            <input type="text" name="destination" value="{{ destination or '' }}" placeholder="Куда">
+            {% if errors.destination %}<span class="error">{{ errors.destination }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Дата поездки:</label>
+            <input type="date" name="date" value="{{ date or '' }}">
+            {% if errors.date %}<span class="error">{{ errors.date }}</span>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Страховка:</label>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" name="insurance" value="yes" {{ insurance == 'yes' and 'checked' }}>
+                    <span>Да</span>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="insurance" value="no" {{ insurance == 'no' and 'checked' }}>
+                    <span>Нет</span>
+                </div>
+            </div>
+            {% if errors.insurance %}<span class="error">{{ errors.insurance }}</span>{% endif %}
+        </div>
+
+        <button type="submit">Оформить билет</button>
+    </form>
+{% endblock %}

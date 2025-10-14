@@ -137,3 +137,73 @@ def reset_style():
     resp.delete_cookie('fontsize') 
     resp.delete_cookie('fontstyle') 
     return resp
+
+@lab3.route('/lab3/ticket')
+def ticket():
+    errors = {}
+    fio = request.args.get('fio')
+    shelf = request.args.get('shelf')
+    linen = request.args.get('linen')
+    baggage = request.args.get('baggage')
+    age = request.args.get('age')
+    departure = request.args.get('departure')
+    destination = request.args.get('destination')
+    date = request.args.get('date')
+    insurance = request.args.get('insurance')
+
+    if request.args:
+        if not fio:
+            errors['fio'] = 'Заполните поле!'
+        if not shelf:
+            errors['shelf'] = 'Выберите полку!'
+        if not linen:
+            errors['linen'] = 'Выберите вариант!'
+        if not baggage:
+            errors['baggage'] = 'Выберите вариант!'
+        if not age:
+            errors['age'] = 'Заполните поле!'
+        elif not age.isdigit() or not (1 <= int(age) <= 120):
+            errors['age'] = 'Возраст должен быть от 1 до 120 лет!'
+        if not departure:
+            errors['departure'] = 'Заполните поле!'
+        if not destination:
+            errors['destination'] = 'Заполните поле!'
+        if not date:
+            errors['date'] = 'Выберите дату!'
+        if not insurance:
+            errors['insurance'] = 'Выберите вариант!'
+
+    if not errors and all([fio, shelf, linen, baggage, age, departure, destination, date, insurance]):
+        age_int = int(age)
+        if age_int < 18:
+            base_price = 700
+            ticket_type = 'Детский билет'
+        else:
+            base_price = 1000
+            ticket_type = 'Взрослый билет'
+        
+        total_price = base_price
+        
+        if shelf in ['lower', 'lower-side']:
+            total_price += 100
+        if linen == 'yes':
+            total_price += 75
+        if baggage == 'yes':
+            total_price += 250
+        if insurance == 'yes':
+            total_price += 150
+
+        return render_template('lab3/ticket_result.html', 
+                              fio=fio, shelf=shelf, linen=linen, baggage=baggage,
+                              age=age, departure=departure, destination=destination,
+                              date=date, insurance=insurance, ticket_type=ticket_type,
+                              total_price=total_price)
+
+    return render_template('lab3/ticket.html', 
+                          errors=errors, fio=fio, shelf=shelf, linen=linen,
+                          baggage=baggage, age=age, departure=departure,
+                          destination=destination, date=date, insurance=insurance)
+
+@lab3.route('/lab3/ticket_result')
+def ticket_result():
+    return redirect('/lab3/ticket')
