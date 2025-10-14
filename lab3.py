@@ -15,7 +15,6 @@ def cookie():
     resp.set_cookie('age', '20')
     resp.set_cookie('name_color', 'magenta')
     return resp
-    # return 'установка cookie', 200, {'Set-Cookie': 'name=Alex'}
 
 @lab3.route('/lab3/del_cookie')
 def del_cookie():
@@ -86,3 +85,45 @@ def pay():
 def success():
     price = request.args.get('price', 0)
     return render_template('lab3/success.html', price=price)
+
+@lab3.route('/lab3/settings')
+def settings():
+    color = request.args.get('color')
+    bgcolor = request.args.get('bgcolor')
+    fontsize = request.args.get('fontsize')
+    fontstyle = request.args.get('fontstyle')
+    
+    if color or bgcolor or fontsize or fontstyle:
+        resp = make_response(redirect('/lab3/settings'))
+        if color:
+            resp.set_cookie('color', color)
+        if bgcolor:
+            resp.set_cookie('bgcolor', bgcolor)
+        if fontsize:
+            resp.set_cookie('fontsize', fontsize)
+        if fontstyle:
+            resp.set_cookie('fontstyle', fontstyle)
+        return resp
+    
+    color = request.cookies.get('color')
+    bgcolor = request.cookies.get('bgcolor')
+    fontsize = request.cookies.get('fontsize')
+    fontstyle = request.cookies.get('fontstyle')
+
+    resp = make_response(render_template(
+        'lab3/settings.html',
+        color=color,
+        bgcolor=bgcolor,
+        fontsize=fontsize,
+        fontstyle=fontstyle
+    ))
+    return resp
+
+@lab3.route('/lab3/reset_style') 
+def reset_style(): 
+    resp = make_response(redirect('/lab3/settings'))
+    resp.delete_cookie('color') 
+    resp.delete_cookie('bgcolor') 
+    resp.delete_cookie('fontsize') 
+    resp.delete_cookie('fontstyle') 
+    return resp

@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+
+<style>
+    form {
+        max-width: 400px;
+        margin: 30px auto;
+        padding: 20px 30px;
+        background: #f9f9fb;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    label {
+        display: block;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 5px;
+        margin-top: 15px;
+    }
+
+    input[type="text"], input[type="number"], input[type="radio"], input[type="checkbox"], select {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        box-sizing: border-box;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus {
+        border-color: #7b5cff;
+        box-shadow: 0 0 5px rgba(123, 92, 255, 0.4);
+        outline: none;
+    }
+
+    button {
+        margin-top: 20px;
+        background: linear-gradient(90deg, #7b5cff, #8e8ffa);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        width: 100%;
+        transition: 0.3s ease;
+        margin-bottom: 35px;
+    }
+
+    button:hover {
+        background: linear-gradient(90deg, #6a4aff, #7a7cff);
+        transform: scale(1.02);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .error {
+        display: block;
+        color: #e63946;
+        font-size: 13px;
+        font-style: italic;
+        margin-top: 3px;
+        margin-left: 2px;
+    }
+
+    .price {
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .cancel {
+        display: inline-block;
+        text-align: center;
+        margin-top: 10px;
+        color: #7b5cff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: 0.3s ease;
+    }
+
+    .cancel:hover {
+        text-decoration: underline;
+        color: #6a4aff;
+    }
+</style>
+
+    <h1>Оплата</h1>
+
+    <div class="price">
+        Сумма к оплате: {{ price }}
+    </div>
+
+    <form action="/lab3/success">
+         <input type="hidden" name="price" value="{{ price }}">
+        <div>Номер банковской карты:</div>
+        <label>
+            <input type="text" name="card" pattern="\d{16}" value="{{ card or '' }}">
+            <span class="error">{{ errors_card }}</span>
+        </label>
+
+        <div>Имя держателя карты:</div>
+        <label>
+            <input type="text" name="name" value="{{ name or '' }}">
+            <span class="error">{{ errors_name }}</span>
+        </label>
+
+        <div>Номер CVV:</div>
+        <label>
+            <input type="text" name="CVV" size="3" pattern="\d{3}" value="{{ cvv or '' }}">
+            <span class="error">{{ errors_cvv }}</span>
+        </label>
+
+        <div>
+            <button type="submit">Оплатить</button>
+            <a href="/lab3/order">Отказаться</a>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 3{% endblock %}
+
+{% block main %}
+    <h1>Cookies</h1>
+    <form>
+        <div>
+            <label class="label" for="color">Выберите цвет текста:</label>
+            <input type="color" id="color" name="color" value="{{ color or '' }}">
+        </div>
+
+        <div>
+            <label class="label" for="bgcolor">Выберите цвет фона:</label>
+            <input type="color" id="bgcolor" name="bgcolor" value="{{ bgcolor or '' }}">
+        </div>
+
+        <div>
+            <label class="label" for="fontsize">Выберите размер шрифта:</label>
+            <select id="fontsize" name="fontsize">
+                <option value="">По умолчанию</option>
+                <option value="14px" {% if fontsize == '14px' %}selected{% endif %}>14 px</option>
+                <option value="16px" {% if fontsize == '16px' %}selected{% endif %}>16 px</option>
+                <option value="18px" {% if fontsize == '18px' %}selected{% endif %}>18 px</option>
+                <option value="20px" {% if fontsize == '20px' %}selected{% endif %}>20 px</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="label" for="fontstyle">Выберите стиль текста:</label>
+            <select id="fontstyle" name="fontstyle">
+                <option value="">Обычный</option>
+                <option value="italic" {% if fontstyle == 'italic' %}selected{% endif %}>Курсив</option>
+            </select>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button type="submit" 
+                    style="background-color: #5daeff;
+                           color: white;
+                           padding: 10px 20px;
+                           border-radius: 8px;
+                           border: none;
+                           cursor: pointer;
+                           font-size: 0.95em;
+                           transition: background 0.3s, transform 0.2s;">
+                ОК
+            </button>
+        </div>
+        
+    </form>
+    <div style="margin-top: 15px;">
+        <a href="/lab3/reset_style"
+           style="display: inline-block;
+                  background-color: #7b5cff;
+                  color: white;
+                  padding: 8px 15px;
+                  border-radius: 6px;
+                  text-decoration: none;">
+            Сбросить настройки
+        </a>
+    </div>
+
+{% endblock %}
