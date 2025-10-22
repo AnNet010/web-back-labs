@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block main %}
+{% if error %}
+    <p style="color:red">{{ error }}</p>
+{% else %}
+    <h2>{{ x1 }} ^ {{ x2 }} = {{ result }}</h2>
+{% endif %}
+<p><a href="/lab4/pow-form">Назад</a></p>
+{% endblock %}
