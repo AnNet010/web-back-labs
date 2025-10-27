@@ -3,11 +3,83 @@
 {% block lab %}Лабораторная работа 4{% endblock %}
 
 {% block main %}
+<style>
+    .login-container {
+        max-width: 480px;
+        margin: 50px auto;
+        padding: 30px;
+        background: linear-gradient(145deg, #f0f8ff, #d9ecff);
+        border: 2px solid #a3cfff;
+        border-radius: 20px;
+        box-shadow: 0 0 20px rgba(0, 100, 255, 0.2);
+        text-align: center;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    h1 {
+        color: #0a3d62;
+        margin-bottom: 15px;
+    }
+
+    h2 {
+        color: #1a5276;
+        font-size: 18px;
+        margin-bottom: 25px;
+    }
+
+    label {
+        display: block;
+        text-align: left;
+        margin: 10px 0 5px 45px;
+        color: #0a3d62;
+        font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 80%;
+        padding: 8px;
+        border: 2px solid #a3cfff;
+        border-radius: 8px;
+        font-size: 16px;
+        outline: none;
+        transition: box-shadow 0.2s;
+    }
+
+    input:focus {
+        box-shadow: 0 0 8px #4da3ff;
+    }
+
+    button {
+        margin: 10px 5px;
+        padding: 8px 20px;
+        background-color: #4da3ff;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    button:hover {
+        background-color: #1c77d3;
+    }
+
+    .error {
+        color: #b30000;
+        font-weight: bold;
+        margin-top: 15px;
+        font-size: 16px;
+    }
+</style>
+
+<div class="login-container">
     {% if authorized %}
         <h1>Добро пожаловать, {{ name }}!</h1>
         <div>
             <form action="/lab4/logout" method="post">
-                <button>Выход</button>
+                <button class="button">Выход</button>
             </form>
         </div>
     {% else %}
@@ -24,9 +96,7 @@
             </div>
 
             {% if error %}
-            <div style="color: red; font-weight: bold; margin-top: 10px;">
-                {{ error }}
-            </div>
+                <div class="error">{{ error }}</div>
             {% endif %}
 
             <div style="margin-top: 10px;">
@@ -35,4 +105,5 @@
             </div>
         </form>
     {% endif %}
+</div>
 {% endblock %}
