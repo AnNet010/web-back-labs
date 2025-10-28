@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 4{% endblock %}
+
+{% block main %}
+<style>
+    .fridge-container {
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 25px;
+        background: linear-gradient(145deg, #f0f8ff, #d9ecff);
+        border: 2px solid #a3cfff;
+        border-radius: 20px;
+        box-shadow: 0 0 15px rgba(135, 206, 250, 0.4);
+        text-align: center;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    .fridge-container h1 {
+        color: #0a3d62;
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        color: #0a3d62;
+        font-weight: 600;
+        font-size: 18px;
+    }
+
+    input[type="text"] {
+        width: 80%;
+        padding: 8px;
+        border: 2px solid #a3cfff;
+        border-radius: 8px;
+        font-size: 16px;
+        text-align: center;
+        outline: none;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 8px 20px;
+        background-color: #4da3ff;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    button:hover {
+        background-color: #1c77d3;
+    }
+
+    .message {
+        margin-top: 20px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #0a3d62;
+    }
+
+    .error {
+        margin-top: 20px;
+        color: #b30000;
+        font-weight: bold;
+        font-size: 17px;
+    }
+
+    .snowflakes {
+        font-size: 30px;
+        margin-top: 8px;
+    }
+</style>
+<div class="fridge-container">
+    <h1>❄️ Холодильник ❄️</h1>
+
+    <form method="post">
+        <label for="temperature">Введите температуру (°С):</label>
+        <input type="text" id="temperature" name="temperature">
+        <br>
+        <button type="submit">Установить</button>
+    </form>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if message %}
+        <div class="message">{{ message }}</div>
+        <div class="snowflakes">
+            {% for i in range(snowflakes) %}
+                ❄️
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

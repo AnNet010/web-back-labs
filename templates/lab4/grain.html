@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block lab %}Лабораторная работа 4 — Заказ зерна{% endblock %}
+
+{% block main %}
+<style>
+    .grain-container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px 35px;
+        background: linear-gradient(180deg, #fffdf8 0%, #fff7e6 100%);
+        border-radius: 18px;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e9dec3;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .grain-title {
+        text-align: center;
+        color: #6e4b1f;
+        margin-bottom: 5px;
+    }
+
+    .grain-subtitle {
+        text-align: center;
+        color: #8a6d3b;
+        font-size: 15px;
+    }
+
+    .grain-form {
+        margin-top: 25px;
+    }
+
+    .grain-label {
+        font-weight: 600;
+        color: #5d3a00;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .grain-input, .grain-select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #d2b48c;
+        background-color: #fffefb;
+        font-size: 15px;
+    }
+
+    .grain-button {
+        background: #b8860b;
+        color: white;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 25px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .grain-button:hover {
+        background: #a07809;
+    }
+
+    .grain-error {
+        color: #b22222;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 25px;
+        background-color: #ffeaea;
+        border-radius: 8px;
+        padding: 8px 12px;
+    }
+
+    .grain-message {
+        color: #4b3b12;
+        font-weight: 600;
+        text-align: center;
+        margin-top: 25px;
+        line-height: 1.6;
+        background-color: #fdf8ed;
+        border: 1px solid #e5d4a1;
+        border-radius: 10px;
+        padding: 10px 15px;
+    }
+
+    .grain-discount {
+        color: #228b22;
+        text-align: center;
+        margin-top: 10px;
+        font-weight: 600;
+    }
+</style>
+
+<div class="grain-container">
+    <h1 class="grain-title">🌾 Заказ зерна</h1>
+    <p class="grain-subtitle">Выберите тип зерна и укажите вес (в тоннах)</p>
+
+    <form method="post" class="grain-form">
+        <div style="margin-bottom: 20px;">
+            <label for="grain" class="grain-label">Тип зерна:</label>
+            <select id="grain" name="grain" class="grain-select">
+                {% for name, price in prices.items() %}
+                    <option value="{{ name }}">{{ name|capitalize }} — {{ price }} руб/т</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+            <label for="weight" class="grain-label">Вес (т):</label>
+            <input type="text" id="weight" name="weight" class="grain-input">
+        </div>
+
+        <div style="text-align: center;">
+            <button type="submit" class="grain-button">Оформить заказ</button>
+        </div>
+    </form>
+
+    {% if error %}
+        <div class="grain-error">{{ error }}</div>
+    {% endif %}
+
+    {% if message %}
+        <div class="grain-message">✅ {{ message }}</div>
+        {% if discount_info %}
+            <div class="grain-discount">{{ discount_info }}</div>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
