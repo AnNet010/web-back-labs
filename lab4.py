@@ -238,3 +238,72 @@ def grain():
 
     message = f'Заказ успешно сформирован. Вы заказали {grain_type}. Вес: {weight} т. Сумма к оплате: {total:,.0f} руб.'
     return render_template('lab4/grain.html', prices=prices, message=message, discount_info=discount_info)
+
+
+@lab4.route('/lab4/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('lab4/register.html', error=None)
+
+    name = request.form.get('name')
+    login_form = request.form.get('login')
+    password = request.form.get('password')
+    confirm = request.form.get('confirm')
+
+    if not name or not login_form or not password or not confirm:
+        error = "Все поля обязательны"
+        return render_template('lab4/register.html', error=error)
+
+    if password != confirm:
+        error = "Пароли не совпадают"
+        return render_template('lab4/register.html', error=error)
+
+    if any(u['login'] == login_form for u in users):
+        error = "Пользователь с таким логином уже существует"
+        return render_template('lab4/register.html', error=error)
+
+    users.append({'login': login_form, 'password': password, 'name': name, 'gender': ''})
+    session['login'] = login_form
+    session['name'] = name
+    session['gender'] = ''
+    return redirect('/lab4/login')
+
+@lab4.route('/lab4/users', methods=['GET', 'POST'])
+def user_list():
+    if 'login' not in session:
+        return redirect('/lab4/login')
+
+    current_login = session['login']
+    user_data = next(u for u in users if u['login'] == current_login)
+    error = None
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+        if action == 'update':
+            new_name = request.form.get('name')
+            new_login = request.form.get('login')
+            new_password = request.form.get('password')
+            confirm = request.form.get('confirm')
+
+            if not new_name or not new_login:
+                error = 'Имя и логин обязательны'
+            elif new_password and new_password != confirm:
+                error = 'Пароли не совпадают'
+            elif new_login != current_login and any(u['login'] == new_login for u in users):
+                error = 'Логин уже занят'
+            else:
+                user_data['name'] = new_name
+                if new_password:
+                    user_data['password'] = new_password
+                user_data['login'] = new_login
+                session['login'] = new_login
+                session['name'] = new_name
+
+        elif action == 'delete':
+            users.remove(user_data)
+            session.pop('login', None)
+            session.pop('name', None)
+            session.pop('gender', None)
+            return redirect('/lab4/register')
+
+    return render_template('lab4/users.html', users=users, user_data=user_data, error=error)

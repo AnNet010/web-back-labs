@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block lab %}Регистрация{% endblock %}
+
+{% block main %}
+<style>
+    .login-container {
+        max-width: 480px;
+        margin: 50px auto;
+        padding: 40px;
+        background: linear-gradient(145deg, #e0f0ff, #c0e0ff);
+        border: 2px solid #7fbfff;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 100, 255, 0.2);
+        text-align: center;
+        font-family: "Segoe UI", sans-serif;
+        transition: transform 0.2s;
+    }
+   
+    h1 {
+        color: #0a3d62;
+        margin-bottom: 20px;
+        font-size: 28px;
+    }
+
+    label {
+        display: block;
+        text-align: left;
+        margin: 12px 0 6px 10px;
+        color: #0a3d62;
+        font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 92%;
+        padding: 10px;
+        margin-bottom: 12px;
+        border: 2px solid #7fbfff;
+        border-radius: 10px;
+        font-size: 16px;
+        outline: none;
+        transition: box-shadow 0.2s, border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+        box-shadow: 0 0 12px #4da3ff;
+        border-color: #4da3ff;
+    }
+
+    button {
+        margin: 10px 5px;
+        padding: 10px 25px;
+        background-color: #4da3ff;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.2s;
+    }
+
+    button:hover {
+        background-color: #1c77d3;
+        transform: scale(1.05);
+    }
+
+    a button {
+        background-color: #b0d4ff;
+        color: #0a3d62;
+    }
+
+    a button:hover {
+        background-color: #7fbfff;
+    }
+
+    .error {
+        color: #b30000;
+        font-weight: bold;
+        margin: 15px 0;
+        font-size: 16px;
+    }
+</style>
+
+<div class="login-container">
+    <h1>Регистрация</h1>
+    <form method="post">
+        <label for="name">Имя:</label>
+        <input type="text" name="name" placeholder="Ваше полное имя" required>
+
+        <label for="login">Логин:</label>
+        <input type="text" name="login" placeholder="Придумайте логин" required>
+
+        <label for="password">Пароль:</label>
+        <input type="password" name="password" placeholder="Пароль" required>
+
+        <label for="confirm">Подтверждение пароля:</label>
+        <input type="password" name="confirm" placeholder="Повторите пароль" required>
+
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+
+        <div style="margin-top: 20px;">
+            <button type="submit">Зарегистрироваться</button>
+            <a href="/lab4/login"><button type="button">Вход</button></a>
+        </div>
+    </form>
+</div>
+{% endblock %}
