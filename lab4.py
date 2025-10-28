@@ -234,9 +234,9 @@ def grain():
     if weight > 10:
         discount = total * 0.1
         total -= discount
-        discount_info = f'Применена скидка 10% за большой объём (-{discount:,.0f} руб.)'
+        discount_info = f'Применена скидка 10% за большой объём (-{int(discount)} руб.)'
 
-    message = f'Заказ успешно сформирован. Вы заказали {grain_type}. Вес: {weight} т. Сумма к оплате: {total:,.0f} руб.'
+    message = f'Заказ успешно сформирован. Вы заказали {grain_type}. Вес: {weight} т. Сумма к оплате:  {int(total)} руб.'
     return render_template('lab4/grain.html', prices=prices, message=message, discount_info=discount_info)
 
 
