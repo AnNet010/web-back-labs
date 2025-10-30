@@ -56,6 +56,12 @@
         <a href="/lab5/login">Войти</a>
         <a href="/lab5/register">Регистрация</a>
     </div>
-    <span class="username">{{ username }}</span>
+    <span class="username">
+        {% if username and username != "Anonymous" %}
+            {{ username }}
+        {% else %}
+            Anonymous
+        {% endif %}
+    </span>
 </div>
 {% endblock %}
