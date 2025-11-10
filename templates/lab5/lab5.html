@@ -4,63 +4,92 @@
 
 {% block main %}
 <style>
+    body {
+        background: #f3f6fc;
+        font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .header-container {
+        background: white;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border-radius: 14px;
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 25px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        transition: transform 0.2s;
+    }
+
+
     h1.knowledge-title {
-        color: #004a99;
-        font-size: 30px;
-        margin-top: 0;
-        margin-bottom: 25px;
-        text-align: left;
-        margin-left: 50px;
+        color: #1e3a8a;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
     }
 
-    .nav-bar {
+    .nav-links {
         display: flex;
-        justify-content: center; 
-        align-items: center;
-        position: relative;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
-    .buttons {
-        display: flex;
-        gap: 40px;
-        align-items: center;
-    }
-
-    .buttons a {
+    .nav-links a {
         text-decoration: none;
-        background-color: #007bff;
-        color: white;
-        padding: 8px 18px;
-        border-radius: 8px;
-        transition: background 0.2s;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 10px;
+        font-weight: 500;
+        font-size: 15px;
+        box-shadow: 0 3px 8px rgba(37,99,235,0.3);
+        transition: all 0.25s ease;
     }
 
-    .buttons a:hover {
-        background-color: #0056b3;
+    .nav-links a:hover {
+        background: linear-gradient(135deg, #1e40af, #1e3a8a);
+        transform: scale(1.06);
+        box-shadow: 0 6px 14px rgba(37,99,235,0.35);
     }
 
     .username {
-        position: absolute;
-        right: 0;
-        font-weight: bold;
-        color: #333;
+        font-weight: 600;
+        color: #334155;
+        font-size: 16px;
+        background: #e0e7ff;
+        padding: 6px 14px;
+        border-radius: 10px;
+        box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
     }
 </style>
 
-<h1 class="knowledge-title">База знаний</h1>
+<div class="header-container">
+    <h1 class="knowledge-title">База знаний</h1>
 
-<div class="nav-bar">
-    <div class="buttons">
+    <div class="nav-links">
         <a href="/lab5/list">Список статей</a>
-        <a href="/lab5/create">Создать статью</a>
-        <a href="/lab5/login">Войти</a>
-        <a href="/lab5/register">Регистрация</a>
-    </div>
-    <span class="username">
+        <a href="/lab5/create">Создать</a>
+        <a href="/lab5/users">Все пользователи</a>
+
         {% if username and username != "Anonymous" %}
+            <a href="{{ url_for('lab5.change_profile') }}">Сменить имя и пароль</a>    
+            <a href="{{ url_for('lab5.logout') }}">Выйти</a>
+        {% else %}
+            <a href="/lab5/login">Войти</a>
+            <a href="/lab5/register">Регистрация</a>
+        {% endif %}
+    </div>
+
+    <span class="username">
+        👤 {% if username and username != "Anonymous" %}
             {{ username }}
         {% else %}
-            Anonymous
+            Гость
         {% endif %}
     </span>
 </div>

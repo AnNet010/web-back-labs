@@ -4,11 +4,140 @@
 
 {% block main %}
 
-    <h1>Статьи</h1>
+<style>
+    .article-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-    {% for article in articles %}
-        <h2>{{ article['title'] }}</h2>
-        <blockquote>{{ article['article_text'] }}</blockquote>
-    {% endfor %}
+    .article-card h2 {
+        margin-top: 0;
+        color: #2c3e50;
+    }
+
+    .article-card blockquote {
+        margin: 10px 0 0 0;
+        color: #34495e;
+    }
+
+    .article-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .article-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-edit {
+        text-decoration: none;
+        padding: 6px 14px;
+        background-color: #22bac5;
+        color: white;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-edit:hover {
+        background-color: #1790b2;
+        transform: scale(1.05);
+    }
+
+    .btn-delete  {
+        text-decoration: none;
+        padding: 6px 14px;
+        background-color: #f05755;
+        color: white;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-tag {
+        text-decoration: none;
+        padding: 6px 14px;
+        color: white;
+        border-radius: 6px;
+        font-weight: bold;
+        transition: background 0.3s, transform 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-tag:hover { 
+        transform: scale(1.05); 
+    }
+
+    .btn-delete:hover {
+        background-color: #b91c1c;
+        transform: scale(1.05);
+    }
+
+    .btn-favorite {
+        background-color: #facc15;
+    }
+
+    .btn-favorite.inactive {
+        background-color: #9ca3af;
+        color: white;
+    }
+
+    .btn-public {
+        background-color: #10b981;
+        color: white;
+    }
+
+    .btn-public.inactive {
+        background-color: #6b7280;
+        color: white;
+    }
+
+</style>
+
+<h1>Статьи</h1>
+
+{% for article in articles %}
+<div class="article-card">
+    <h2>{{ article['title'] }}</h2>
+    <blockquote>{{ article['article_text'] }}</blockquote>
+
+    <div class="article-actions">
+         {% if login_id and article['user_id'] == login_id %}
+            <a href="{{ url_for('lab5.edit_article', article_id=article['id']) }}" class="btn-edit">Редактировать</a>
+            
+            <a href="{{ url_for('lab5.delete_article', article_id=article['id']) }}" class="btn-delete"
+                onclick="return confirm('Вы уверены, что хотите удалить эту статью?');">Удалить</a>
+        
+            {% if article['is_public'] %}
+                <a href="{{ url_for('lab5.toggle_public', article_id=article['id']) }}" class="btn-tag btn-public">Сделать приватной</a>
+            {% else %}
+                <a href="{{ url_for('lab5.toggle_public', article_id=article['id']) }}" class="btn-tag btn-public inactive">Сделать публичной</a>
+            {% endif %}
+
+            {% if article['is_favorite'] %}
+                <a href="{{ url_for('lab5.toggle_favorite', article_id=article['id']) }}" class="btn-tag btn-favorite">★ В избранном</a>
+            {% else %}
+                <a href="{{ url_for('lab5.toggle_favorite', article_id=article['id']) }}" class="btn-tag btn-favorite inactive">☆ Добавить в избранное</a>
+            {% endif %}
+        {% else %}
+            {% if article['is_public'] %}
+                <span class="public-badge">Публичная</span>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+{% else %}
+<p>У вас пока нет статей.</p>
+{% endfor %}
 
 {% endblock %}

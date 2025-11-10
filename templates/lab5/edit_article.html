@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block lab %}Лабораторная работа 5{% endblock %}
+{% block lab %}Редактирование статьи{% endblock %}
 
 {% block main %}
 
@@ -83,7 +83,7 @@
 </style>
 
 <form method="post">
-    <h1>Создание статьи</h1>
+    <h1>Редактирование статьи</h1>
 
     {% if error %}
         <div class="error">{{ error }}</div>
@@ -92,19 +92,20 @@
     <div>
         <label>
             Название статьи:
-            <input type="text" maxlength="50" name="title" placeholder="Введите заголовок статьи" value="{{ request.form.title or '' }}">
+            <input type="text" maxlength="50" name="title" placeholder="Введите заголовок статьи"
+                   value="{{ request.form.title or article['title'] }}">
         </label>
     </div>
 
     <div>
         <label>
             Текст статьи:
-            <textarea name="article_text" placeholder="Введите текст статьи">{{ request.form.article_text or '' }}</textarea>
+            <textarea name="article_text" placeholder="Введите текст статьи">{{ request.form.article_text or article['article_text'] }}</textarea>
         </label>
     </div>
 
     <div>
-        <button type="submit">Создать статью</button>
+        <button type="submit">Сохранить изменения</button>
     </div>
 </form>
 

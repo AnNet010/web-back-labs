@@ -3,9 +3,52 @@
 {% block lab %}Лабораторная работа 5{% endblock %}
 
 {% block main %}
+<style>
+    .success-container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #f0fdf4;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .success-container h1 {
+        color: #16a34a;
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .success-container p {
+        font-size: 1.1em;
+        color: #374151;
+        margin-bottom: 15px;
+    }
+
+    .success-container a {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #22c55e;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .success-container a:hover {
+        background-color: #15803d;
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="success-container">
     <h1>Регистрация успешна!</h1>
-    <p>Поздравляем, вы успешно зарегистрированы в системе.</p>
+    <p>Поздравляем, вы успешно зарегистрированы в системе 🎉</p>
     <p>
-        <a href="/lab5/lab5.html">Перейти к базе знаний</a>
+        <a href="{{ url_for('lab5.lab') }}">Перейти к базе знаний</a>
     </p>
+</div>
 {% endblock %}

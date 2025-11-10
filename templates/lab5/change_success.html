@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block lab %}Обновление данных{% endblock %}
+
+{% block main %}
+<h2 style="text-align:center; margin-top:50px; color:#1e40af;">
+    Ваши данные успешно обновлены!
+</h2>
+<p style="text-align:center; margin-top:20px;">
+    Новое имя: <strong>{{ full_name }}</strong>
+</p>
+<p style="text-align:center; margin-top:20px;">
+    <a href="{{ url_for('lab5.lab') }}">Вернуться на главную</a>
+</p>
+{% endblock %}
