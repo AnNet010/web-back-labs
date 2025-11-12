@@ -76,7 +76,7 @@
         <a href="/lab5/create">Создать</a>
         <a href="/lab5/users">Все пользователи</a>
 
-        {% if username and username != "Anonymous" %}
+        {% if username != "Аноним" %}
             <a href="{{ url_for('lab5.change_profile') }}">Сменить имя и пароль</a>    
             <a href="{{ url_for('lab5.logout') }}">Выйти</a>
         {% else %}
@@ -86,11 +86,7 @@
     </div>
 
     <span class="username">
-        👤 {% if username and username != "Anonymous" %}
-            {{ username }}
-        {% else %}
-            Гость
-        {% endif %}
+        👤 {{ username }}
     </span>
 </div>
 {% endblock %}

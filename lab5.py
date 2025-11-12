@@ -12,7 +12,7 @@ lab5 = Blueprint('lab5', __name__)
 def lab():
     login = session.get('login')
     if not login:
-        login = "Anonymous"
+        login = "Аноним"
     return render_template('lab5/lab5.html', username=login)
 
 
@@ -396,7 +396,7 @@ def toggle_favorite(article_id):
         db_close(conn, cur)
         return "Статья не найдена", 404
 
-    new_status = not article['is_favorite'] if current_app.config['DB_TYPE'] == 'postgres' else not article['is_favorite']
+    new_status = not article['is_favorite']
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("UPDATE articles SET is_favorite=%s WHERE id=%s;", (new_status, article_id))
     else:
