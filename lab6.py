@@ -30,9 +30,9 @@ def db_close(conn, cur):
     conn.close()
 
 
-# offices = []
-# for i in range(1, 11):
-#     offices.append({"number": i, "tenant": "", "price": 1000})
+offices = []
+for i in range(1, 11):
+    offices.append({"number": i, "tenant": "", "price": 1000})
 
 @lab6.route('/lab6/')
 def main():
@@ -48,9 +48,10 @@ def api():
     if data['method'] == 'info':
         if current_app.config.get('DB_TYPE') == 'postgres':
             cur.execute("SELECT id, number, tenant, price FROM offices ORDER BY number;")
+            offices = cur.fetchall()
         else:
             cur.execute("SELECT id, number, tenant, price FROM offices ORDER BY number;")
-        offices = cur.fetchall()
+            offices = [dict(row) for row in cur.fetchall()]
         db_close(conn, cur)
         return {
             'jsonrpc': '2.0',
