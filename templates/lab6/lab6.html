@@ -81,6 +81,10 @@
 </style>
 
 <script>
+    const currentUser = "{{ session.get('login', '') }}";
+</script>
+
+<script>
 function getOfficeList() {
     const url = '/lab6/json-rpc-api/';
     const json = {
@@ -113,7 +117,7 @@ function getOfficeList() {
             li.innerText = office.number + ': ' + (office.tenant || 'свободен') + 
                            ' (' + office.price + '₽)';
             
-            if (office.tenant) {
+            if (office.tenant === currentUser) {
                 total += office.price;
             }
 
