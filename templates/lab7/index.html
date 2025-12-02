@@ -5,21 +5,147 @@
 {% block script %}
 <script src="{{ url_for('static', filename='lab7/main.js') }}"></script>
 <style>
+table {
+    width: 90%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #5daeff;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1em;
+    text-align: center;
+}
+
+td button {
+    margin-right: 5px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: transform 0.2s, background 0.3s;
+}
+
+td button.edit {
+    background-color: #16a34a;
+    color: #fff;
+}
+
+td button.edit:hover {
+    background-color: #13803d;
+    transform: scale(1.05);
+}
+
+td button.delete {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+td button.delete:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
+.add-film-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 25px;
+    background-color: #5daeff;
+    color: #fff;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.add-film-btn:hover {
+    background-color: #2184c5;
+    transform: scale(1.05);
+}
+
 .modal {
     display: none;
     z-index: 1000;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     background: #fff;               
     position: fixed;   
-    padding: 20px;        
-    top: 100px;                
+    top: 50%;                
     left: 50%;                  
-    transform: translateX(-50%);  
+    transform: translate(-50%, -50%);  
     width: 400px;                                  
-    border-radius: 12px;                        
+    border-radius: 12px;  
+    padding: 25px 20px;                      
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    font-size: 0.95em;
 }
+
+.modal label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.modal input[type="text"],
+.modal textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95em;
+    box-sizing: border-box;
+}
+
+.modal textarea {
+    resize: vertical;
+}
+
+.modal button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 10px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.modal button:first-of-type {
+    background-color: #16a34a;
+    color: #fff;
+}
+
+.modal button:first-of-type:hover {
+    background-color: #13803d;
+    transform: scale(1.05);
+}
+
+.modal button:last-of-type {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.modal button:last-of-type:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
 .error-message {
     color: red;
+    font-size: 0.85em;
+    margin-top: 4px;
 }
 </style>
 {% endblock %}
@@ -43,7 +169,7 @@
     </script>
 
     <div>
-        <button onclick="addFilm()">Добавить фильм</button>
+        <button class="add-film-btn" onclick="addFilm()">Добавить фильм</button>
     </div>
 
     <div class="modal">

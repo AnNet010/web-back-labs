@@ -9,13 +9,19 @@ function fillFilmList() {
         for(let i = 0; i<films.length; i++) {
             let tr = document.createElement('tr');
 
-            let tdTitle = document.createElement('td');
             let tdTitleRus = document.createElement('td');
+            let tdTitle = document.createElement('td');
             let tdYear = document.createElement('td');
             let tdActions = document.createElement('td');
 
-            tdTitle.innerHTML = films[i].title == films[i].title_ru ? '' : films[i].title;
-            tdTitleRus.innerHTML = films[i].title_ru;
+            tdTitleRus.innerText = films[i].title_ru;
+
+            if (films[i].title && films[i].title !== films[i].title_ru) {
+                tdTitle.innerHTML = `<i>(${films[i].title})</i>`;
+            } else {
+                tdTitle.innerHTML = '';
+            }
+
             tdYear.innerHTML = films[i].year;
 
             let editButton = document.createElement('button');
@@ -33,8 +39,8 @@ function fillFilmList() {
             tdActions.append(editButton);
             tdActions.append(delButton);
 
-            tr.append(tdTitle);
             tr.append(tdTitleRus);
+            tr.append(tdTitle);
             tr.append(tdYear);
             tr.append(tdActions);
 
