@@ -7,6 +7,7 @@ function fillFilmList() {
         let tbody = document.getElementById('film-list');
         tbody.innerHTML = '';
         for(let i = 0; i<films.length; i++) {
+            let film = films[i];
             let tr = document.createElement('tr');
 
             let tdTitleRus = document.createElement('td');
@@ -14,27 +15,23 @@ function fillFilmList() {
             let tdYear = document.createElement('td');
             let tdActions = document.createElement('td');
 
-            tdTitleRus.innerText = films[i].title_ru;
+            tdTitleRus.innerText = film.title_ru;
 
-            if (films[i].title && films[i].title !== films[i].title_ru) {
-                tdTitle.innerHTML = `<i>(${films[i].title})</i>`;
-            } else {
-                tdTitle.innerHTML = '';
-            }
+            tdTitle.innerHTML = `<i>(${film.title})</i>`;
 
-            tdYear.innerHTML = films[i].year;
+            tdYear.innerText = film.year;
 
             let editButton = document.createElement('button');
             editButton.innerText = 'редактировать';
             editButton.onclick = function() {
-                editFilm(i);
+                editFilm(film.id);
             };
 
             let delButton = document.createElement('button');
             delButton.innerText = 'удалить';
             delButton.onclick = function() {
-                deleteFilm(i, films[i].title_ru);
-            }
+                deleteFilm(film.id, film.title_ru);
+            };
 
             tdActions.append(editButton);
             tdActions.append(delButton);
@@ -93,6 +90,11 @@ function sendFilm() {
     const url = `/lab7/rest-api/films/${id}`;
     const method = id === '' ? 'POST' : 'PUT';
 
+    document.getElementById('title-error').innerText = '';
+    document.getElementById('title-ru-error').innerText = '';
+    document.getElementById('year-error').innerText = '';
+    document.getElementById('description-error').innerText = '';
+
     fetch(url, {
         method: method,
         headers: {"Content-Type": "application/json"},
@@ -107,6 +109,12 @@ function sendFilm() {
         return resp.json();
     })
     .then(function(errors) {
+        if(errors.title)
+            document.getElementById('title-error').innerText = errors.title;
+        if(errors.title_ru)
+            document.getElementById('title-ru-error').innerText = errors.title_ru;
+        if(errors.year)
+            document.getElementById('year-error').innerText = errors.year;
         if(errors.description)
             document.getElementById('description-error').innerText = errors.description;
     });
@@ -118,7 +126,7 @@ function editFilm(id) {
         return data.json();
     })
     .then(function (film) {
-        document.getElementById('id').value = id;
+        document.getElementById('id').value = film.id;
         document.getElementById('title').value = film.title;
         document.getElementById('title-ru').value = film.title_ru;
         document.getElementById('year').value = film.year;
