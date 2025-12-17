@@ -35,8 +35,8 @@ def validate_film(film):
     errors = {}
     if not film.get('title_ru', '').strip():
         errors['title_ru'] = 'Русское название обязательно'
-    if not film.get('title', '').strip() and film.get('title_ru', '').strip():
-        errors['title'] = 'Оригинальное название обязательно, если нет русского'
+    if not film.get('title_ru', '').strip() and not film.get('title', '').strip():
+        errors['title'] = 'Требуется заполнить название'
     try:
         year = int(film.get('year', 0))
         current_year = datetime.now().year
