@@ -63,14 +63,18 @@
     <h1 class="knowledge-title">База знаний</h1>
 
     <div class="nav-links">
-        <a href="/lab8/login">Вход</a>
-        <a href="/lab8/register">Регистрация</a>
         <a href="/lab8/articles">Список статей</a>
         <a href="/lab8/create">Создать статью</a>
-    </div>
 
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('lab8.logout') }}">Выйти</a>
+        {% else %}
+            <a href="/lab8/login">Вход</a>
+            <a href="/lab8/register">Регистрация</a>
+        {% endif %}
+    </div>
     <span class="username">
-        👤 {{ username }}
+        👤 {% if current_user.is_authenticated %}{{ current_user.login }}{% else %}Аноним{% endif %}
     </span>
 </div>
 

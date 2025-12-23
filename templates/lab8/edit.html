@@ -1,22 +1,10 @@
 {% extends "base.html" %}
 
-{% block lab %}Лабораторная работа 8{% endblock %}
-
 {% block main %}
 <style>
-    .form-container,
-    .form-input,
-    .form-textarea {
-        box-sizing: border-box;
-    }
-
     .form-container {
         max-width: 600px;
         margin: 30px auto;
-        padding: 20px;
-        border: 1px solid #cbd5e1;
-        border-radius: 10px;
-        background-color: #fff;
     }
 
     .form-input,
@@ -53,33 +41,29 @@
         text-align: center;
     }
 
-    .error-message {
-        color: red;
-        font-weight: bold;
-        text-align: center;
-        margin-bottom: 15px;
+    .mt-3 {
+        margin-top: 30px;
     }
 </style>
 
-<h1 class="text-center">Создание статьи</h1>
+<h1 class="text-center mt-3">Редактирование статьи</h1>
 
-{% if error %}
-    <div class="error-message">{{ error }}</div>
-{% endif %}
+<form method="post"
+      action="{{ url_for('lab8.edit_article', article_id=article.id) }}"
+      class="form-container">
 
-<form method="post" class="form-container">
     <input type="text"
            name="title"
-           placeholder="Название статьи"
-           value="{{ request.form.title or '' }}"
+           value="{{ article.title }}"
            required
            class="form-input">
 
     <textarea name="article_text"
-              placeholder="Текст статьи"
               required
-              class="form-textarea">{{ request.form.article_text or '' }}</textarea>
+              class="form-textarea">{{ article.article_text }}</textarea>
 
-    <button type="submit" class="form-button">Создать статью</button>
+    <button type="submit" class="form-button">
+        Сохранить изменения
+    </button>
 </form>
 {% endblock %}
