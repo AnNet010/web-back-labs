@@ -5,11 +5,9 @@ import os
 
 lab9 = Blueprint('lab9', __name__)
 
-# Хранилище для открытых коробок
 opened_boxes = {}
 box_positions = {}
 
-# Список поздравлений (10 уникальных)
 congratulations = [
     "С Новым годом! Пусть сбудутся все мечты!",
     "Пусть новый год принесет много радости!",
@@ -23,7 +21,6 @@ congratulations = [
     "Желаю мира, добра и благополучия!"
 ]
 
-# Картинки для коробок (изначально показываются)
 initial_presents = [
     "/static/lab9/present1.jpg",
     "/static/lab9/present2.jpg",
@@ -37,7 +34,6 @@ initial_presents = [
     "/static/lab9/present10.jpg"
 ]
 
-# Картинки при открытии (новые фото)
 new_presents = [
     "/static/lab9/new1.jpg",
     "/static/lab9/new2.jpg",
@@ -51,37 +47,28 @@ new_presents = [
     "/static/lab9/new10.jpg"
 ]
 
-# Какие коробки доступны только авторизованным пользователям
 REQUIRE_AUTH_FOR = [7, 8, 9]
 
 def get_user_id():
-    """Получаем ID пользователя или сессии"""
     if current_user.is_authenticated:
-        # Для авторизованных пользователей используем их ID
         user_id = f"user_{current_user.id}"
     else:
-        # Для неавторизованных - ID сессии
         if 'anon_id' not in session:
             session['anon_id'] = os.urandom(16).hex()
-            # ИНИЦИАЛИЗИРУЕМ счетчик при создании новой анонимной сессии
             session['anon_opened_count'] = 0
         user_id = f"anon_{session['anon_id']}"
     
     return user_id
 
 def get_opened_count(user_id):
-    """Получаем количество открытых коробок для пользователя"""
     if current_user.is_authenticated:
-        # Для авторизованных храним в словаре
         if user_id not in opened_boxes:
             opened_boxes[user_id] = {'boxes': [], 'count': 0}
         return opened_boxes[user_id]['count']
     else:
-        # Для неавторизованных храним в сессии
         return session.get('anon_opened_count', 0)
 
 def set_opened_count(user_id, count):
-    """Устанавливаем количество открытых коробок для пользователя"""
     if current_user.is_authenticated:
         if user_id not in opened_boxes:
             opened_boxes[user_id] = {'boxes': [], 'count': 0}
@@ -90,19 +77,16 @@ def set_opened_count(user_id, count):
         session['anon_opened_count'] = count
 
 def get_opened_boxes(user_id):
-    """Получаем список открытых коробок"""
     if current_user.is_authenticated:
         if user_id not in opened_boxes:
             opened_boxes[user_id] = {'boxes': [], 'count': 0}
         return opened_boxes[user_id]['boxes']
     else:
-        # Для неавторизованных храним в сессии
         if 'anon_opened_boxes' not in session:
             session['anon_opened_boxes'] = []
         return session['anon_opened_boxes']
 
 def add_opened_box(user_id, box_id):
-    """Добавляем открытую коробку"""
     if current_user.is_authenticated:
         if user_id not in opened_boxes:
             opened_boxes[user_id] = {'boxes': [], 'count': 0}
@@ -113,12 +97,9 @@ def add_opened_box(user_id, box_id):
         session['anon_opened_boxes'].append(box_id)
 
 def init_user_boxes(user_id):
-    """Инициализируем данные для пользователя"""
-    # Инициализируем список открытых коробок
     get_opened_boxes(user_id)
     
     if user_id not in box_positions:
-        # ФИКСИРОВАННЫЕ позиции как в задании
         positions = [
             {'id': 0, 'top': 10, 'left': 5, 'zIndex': 1, 'initial_image': initial_presents[0], 'requires_auth': False},
             {'id': 1, 'top': 10, 'left': 30, 'zIndex': 1, 'initial_image': initial_presents[1], 'requires_auth': False},
@@ -134,7 +115,6 @@ def init_user_boxes(user_id):
         box_positions[user_id] = positions
 
 def get_remaining_boxes_count(user_id):
-    """Получаем количество неоткрытых коробок"""
     init_user_boxes(user_id)
     opened_boxes_list = get_opened_boxes(user_id)
     return 10 - len(opened_boxes_list)
@@ -168,23 +148,18 @@ def open_box():
     box_id = int(data['box_id'])
     init_user_boxes(user_id)
     
-    # Проверка на авторизацию для специальных коробок
     if box_id in REQUIRE_AUTH_FOR and not current_user.is_authenticated:
         return jsonify({'error': 'Эта коробка доступна только авторизованным пользователям'}), 403
     
-    # Проверка, открыта ли уже коробка
     opened_boxes_list = get_opened_boxes(user_id)
     if box_id in opened_boxes_list:
         return jsonify({'error': 'Эта коробка уже открыта'}), 400
     
-    # Проверка лимита (3 коробки)
     if get_opened_count(user_id) >= 3:
         return jsonify({'error': 'Вы уже открыли максимальное количество коробок (3)'}), 400
     
-    # Открываем коробку
     add_opened_box(user_id, box_id)
     
-    # Увеличиваем счетчик
     new_count = get_opened_count(user_id) + 1
     set_opened_count(user_id, new_count)
     
@@ -199,10 +174,9 @@ def open_box():
 @lab9.route('/lab9/santa', methods=['POST'])
 @login_required
 def santa_refill():
-    """Дед Мороз наполняет все коробки (только для авторизованных)"""
     user_id = f"user_{current_user.id}"
     
-    # Очищаем открытые коробки и счетчик
+    
     if user_id in opened_boxes:
         opened_boxes[user_id] = {'boxes': [], 'count': 0}
     
@@ -213,22 +187,20 @@ def santa_refill():
 
 @lab9.route('/lab9/reset', methods=['POST'])
 def reset():
-    """Сброс для неавторизованных пользователей"""
     if current_user.is_authenticated:
         return jsonify({'error': 'Авторизованные пользователи используют кнопку "Дед Мороз"'}), 403
     
-    # Сбрасываем данные для неавторизованного пользователя
     session['anon_opened_count'] = 0
     session['anon_opened_boxes'] = []
     
-    # Также очищаем из хранилища по старому ID
+    
     old_user_id = f"anon_{session.get('anon_id', '')}"
     if old_user_id in opened_boxes:
         del opened_boxes[old_user_id]
     if old_user_id in box_positions:
         del box_positions[old_user_id]
     
-    # Генерируем новый ID для сессии
+    
     session['anon_id'] = os.urandom(16).hex()
     
     return jsonify({

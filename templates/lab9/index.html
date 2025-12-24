@@ -5,16 +5,14 @@
 {% block script %}
 <script src="{{ url_for('static', filename='lab9/lab9.js') }}"></script>
 <style>
-/* Фон всей страницы внутри main */
 main {
     background: #ffe2a3;
     border-radius: 16px;
     padding: 30px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    color: #fff; /* белый текст для контраста */
+    color: #fff;
 }
 
-/* Контейнер всей страницы */
 .container {
     position: relative;
     min-height: 600px;
@@ -25,7 +23,6 @@ main {
 }
 
 
-/* Подарочные коробки */
 .gift-box {
     position: absolute;
     width: 150px;
@@ -49,24 +46,22 @@ main {
     cursor: not-allowed;
 }
 
-/* Модальное окно поздравления */
 .congratulation-modal {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: linear-gradient(135deg, #ffefba, #ffffff); /* праздничный фон */
+    background: linear-gradient(135deg, #ffefba, #ffffff);
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0,0,0,0.5);
     z-index: 1000;
     max-width: 500px;
     text-align: center;
-    color: #000; /* черный текст для поздравления */
+    color: #000; 
 }
 
-/* Текст и заголовок модалки */
 .congratulation-modal h2,
 .congratulation-modal p {
     color: #000;
@@ -81,7 +76,6 @@ main {
     height: auto;
 }
 
-/* Полупрозрачная подложка модалки */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -93,9 +87,8 @@ main {
     z-index: 999;
 }
 
-/* Панель с информацией */
 .info-panel {
-    background: linear-gradient(135deg, #ff6b6b, #32ff7e); /* красно-зелёный градиент */
+    background: linear-gradient(135deg, #ff6b6b, #32ff7e);
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 20px;
@@ -105,7 +98,7 @@ main {
     font-weight: bold;
 }
 
-/* Кнопки */
+
 .close-btn, .btn, .btn-clear {
     transition: all 0.3s;
 }
@@ -135,11 +128,10 @@ main {
 }
 
 .holiday-title {
-    color: #ff4500; /* насыщенный оранжево-красный цвет */
-    text-shadow: 0.5px 0.5px 1px #000000; /* легкая тень для праздничного эффекта */
+    color: #ff4500;
+    text-shadow: 0.5px 0.5px 1px #000000;
 }
 
-/* Стиль для коробок, требующих авторизации */
 {% if not is_authenticated %}
 .auth-box {
     position: relative;
@@ -193,7 +185,7 @@ main {
         🎅 Привет, <strong>{{ username }}</strong>! Вы авторизованы и можете открывать все коробки!
     </div>
     {% else %}
-    <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+    <div style="background: #4eeaff; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
         🔒 Вы не авторизованы. Коробки с замком доступны только авторизованным пользователям.
         <a href="{{ url_for('lab8.login') }}">Войти</a> | 
         <a href="{{ url_for('lab8.register') }}">Зарегистрироваться</a>
