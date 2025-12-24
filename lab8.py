@@ -192,4 +192,3 @@ def toggle_public(article_id):
     article.is_public = not article.is_public
     db.session.commit()
     return redirect('/lab8/articles')
-
