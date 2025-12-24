@@ -2,8 +2,249 @@
 
 {% block lab %}Лабораторная работа 9{% endblock %}
 
-{% block script %}{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='lab9/lab9.js') }}"></script>
+<style>
+/* Фон всей страницы внутри main */
+main {
+    background: #ffe2a3;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    color: #fff; /* белый текст для контраста */
+}
+
+/* Контейнер всей страницы */
+.container {
+    position: relative;
+    min-height: 600px;
+    background: url("{{ url_for('static', filename='lab9/background.jpg') }}") no-repeat center center;
+    background-size: cover;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+
+/* Подарочные коробки */
+.gift-box {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.gift-box:hover {
+    transform: scale(1.1);
+}
+
+.gift-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.opened {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+/* Модальное окно поздравления */
+.congratulation-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #ffefba, #ffffff); /* праздничный фон */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    z-index: 1000;
+    max-width: 500px;
+    text-align: center;
+    color: #000; /* черный текст для поздравления */
+}
+
+/* Текст и заголовок модалки */
+.congratulation-modal h2,
+.congratulation-modal p {
+    color: #000;
+}
+
+.congratulation-modal img {
+    display: block;
+    margin: 20px auto;
+    max-width: 300px;
+    max-height: 300px;
+    width: auto;
+    height: auto;
+}
+
+/* Полупрозрачная подложка модалки */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 999;
+}
+
+/* Панель с информацией */
+.info-panel {
+    background: linear-gradient(135deg, #ff6b6b, #32ff7e); /* красно-зелёный градиент */
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* Кнопки */
+.close-btn, .btn, .btn-clear {
+    transition: all 0.3s;
+}
+
+.close-btn {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.close-btn:hover {
+    background: #ff7979;
+}
+
+/* Ошибки */
+.error-message {
+    background: #ffcccc;
+    color: #cc0000;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: none;
+}
+
+.holiday-title {
+    color: #ff4500; /* насыщенный оранжево-красный цвет */
+    text-shadow: 0.5px 0.5px 1px #000000; /* легкая тень для праздничного эффекта */
+}
+
+/* Стиль для коробок, требующих авторизации */
+{% if not is_authenticated %}
+.auth-box {
+    position: relative;
+}
+
+.auth-box::after {
+    content: '🔒';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: white;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 16px;
+    z-index: 10;
+}
+{% endif %}
+
+/* Кнопка Деда Мороза */
+.santa-btn {
+    background: #ff0000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+/* Кнопка сброса */
+.reset-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 20px;
+}
+</style>
+{% endblock %}
 
 {% block main %}
-    <h1>Поздравления</h1>
+    <h1><span class="holiday-title">🎄✨ Новогодние поздравления 🎁❄️</span></h1>
+    
+    {% if is_authenticated %}
+    <div style="background: #4eeaff; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+        🎅 Привет, <strong>{{ username }}</strong>! Вы авторизованы и можете открывать все коробки!
+    </div>
+    {% else %}
+    <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+        🔒 Вы не авторизованы. Коробки с замком доступны только авторизованным пользователям.
+        <a href="{{ url_for('lab8.login') }}">Войти</a> | 
+        <a href="{{ url_for('lab8.register') }}">Зарегистрироваться</a>
+    </div>
+    {% endif %}
+    
+    <div class="info-panel">
+        <div>
+            <strong>Открыто коробок:</strong> <span id="opened-count">{{ opened_count }}</span>/3
+        </div>
+        <div>
+            <strong>Осталось коробок:</strong> <span id="remaining-count">{{ remaining }}</span>/10
+        </div>
+    </div>
+    
+    <div class="error-message" id="error-message"></div>
+    
+    <div class="container" id="gifts-container">
+        {% for position in positions %}
+        <div class="gift-box {% if position.requires_auth and not is_authenticated %}auth-box{% endif %}" 
+             data-box-id="{{ position.id }}" 
+             style="top: {{ position.top }}%; left: {{ position.left }}%; z-index: {{ position.zIndex }};">
+            <img src="{{ position.initial_image }}" alt="Подарок {{ position.id + 1 }}">
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="congratulation-modal" id="congratulation-modal">
+        <h2 id="congratulation-title">Поздравление!🎉</h2>
+        <p id="congratulation-text"></p>
+        <img id="gift-image" src="" alt="Подарок">
+        <button class="close-btn" onclick="closeModal()">Закрыть</button>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px;">
+        {% if is_authenticated %}
+        <button class="santa-btn" onclick="callSanta()">
+            🎅 Дед Мороз – наполнить коробки
+        </button>
+        {% else %}
+        <button class="reset-btn" onclick="resetGame()">
+            🔄 Сбросить игру
+        </button>
+        {% endif %}
+    </div>
+    
+    <div style="margin-top: 20px; color: #666; text-align: center;">
+        <p>Нажмите на коробки, чтобы открыть подарки. Можно открыть только 3 коробки!</p>
+        {% if not is_authenticated %}
+        <p>🔒 Коробки с замком доступны только авторизованным пользователям.</p>
+        {% endif %}
+    </div>
 {% endblock %}
