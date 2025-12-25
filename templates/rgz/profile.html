@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block lab %}Профиль{% endblock %}
+
+{% block main %}
+<h1>Профиль пользователя</h1>
+
+<div class="form-container">
+    {% if error %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
+    {% if success %}
+        <div class="success-message">{{ success }}</div>
+    {% endif %}
+
+    <form id="profile-form">
+        <div class="form-group">
+            <label>Полное имя:</label>
+            <input type="text" name="full_name" value="{{ profile.full_name if profile else '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>Возраст:</label>
+            <input type="number" name="age" min="18" max="100" value="{{ profile.age if profile else '' }}">
+        </div>
+
+        <div class="form-group">
+            <label>Пол:</label>
+            <select name="gender">
+                <option value="Мужчина" {% if profile and profile.gender == "Мужчина" %}selected{% endif %}>Мужчина</option>
+                <option value="Женщина" {% if profile and profile.gender == "Женщина" %}selected{% endif %}>Женщина</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>О себе:</label>
+            <textarea name="about" rows="4">{% if profile %}{{ profile.about }}{% endif %}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Контакт для связи:</label>
+            <input type="text" name="contact" placeholder="Email или телефон" value="{{ profile.contact if profile else '' }}">
+        </div>
+
+        <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="is_hidden" {% if profile and profile.is_hidden %}checked{% endif %}>
+                <span>Скрыть анкету</span>
+            </label>
+        </div>
+
+        <div id="profile-photo-container" class="form-group">
+            {% if profile and profile.has_photo %}
+                <img src="{{ url_for('static', filename='uploads/' ~ profile.user_id ~ '.jpg') }}"
+                     alt="Фото профиля" class="profile-photo">
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label>Загрузить фото:</label>
+            <input type="file" id="photo-input" name="photo">
+        </div>
+
+        <button type="submit" class="save-btn">Сохранить изменения</button>
+    </form>
+
+    <button id="delete-btn" class="delete-btn">Удалить аккаунт</button>
+</div>
+
+<style>
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* Каждое поле в отдельной группе */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Общие стили для всех полей */
+.form-container input,
+.form-container select,
+.form-container textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 1em;
+    border: 1px solid #d1d5db;
+    outline: none;
+    box-sizing: border-box;
+    font-weight: normal;
+    font-family: inherit;
+    background-color: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Кнопки */
+.save-btn {
+    background-color: #2563eb;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    padding: 12px;
+    width: 100%;
+}
+.save-btn:hover {
+    background-color: #1e40af;
+}
+.delete-btn {
+    margin-top: 20px;
+    background-color: #dc2626;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+}
+.delete-btn:hover {
+    background-color: #b91c1c;
+}
+
+.error-message {
+    color: #dc2626;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.success-message {
+    color: #16a34a;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Чекбокс */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+/* Фото профиля */
+.profile-photo {
+    max-width: 200px;
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+</style>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='rgz/profile.js') }}"></script>
+{% endblock %}
