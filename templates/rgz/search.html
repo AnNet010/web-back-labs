@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block lab %}Поиск{% endblock %}
+
+{% block main %}
+<h1>Поиск анкет</h1>
+
+<div class="form-container">
+    <form id="search-form">
+        <div class="form-group">
+            <label for="name">Имя</label>
+            <input type="text" name="name" id="name" placeholder="Введите имя">
+        </div>
+        <div class="form-group">
+            <label for="age">Возраст</label>
+            <input type="number" name="age" id="age" placeholder="Возраст" min="18" max="100">
+        </div>
+        <button type="submit" class="search-btn">Искать</button>
+    </form>
+</div>
+
+<hr>
+
+<div id="results-container">
+    <!-- Результаты будут добавляться через JS -->
+</div>
+
+<style>
+.form-container {
+    max-width: 450px;
+    margin: 0 auto 25px auto;
+    padding: 25px;
+    background-color: #f3f4f6;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: #1f2937;
+}
+
+.form-group input {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+}
+
+.search-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.search-btn:hover {
+    background-color: #1e40af;
+}
+
+/* Карточки профиля */
+.profile-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #ffffff;
+    margin-bottom: 15px;
+    border-left: 4px solid #2563eb;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #2563eb;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.profile-name {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.profile-details {
+    display: flex;
+    gap: 15px;
+    color: #4b5563;
+    font-weight: 500;
+}
+
+.profile-about {
+    line-height: 1.4;
+    color: #374151;
+}
+
+/* Кнопки действия */
+.next-btn, .like-btn, .prev-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #2563eb;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+
+.next-btn:hover, .like-btn:hover, .prev-btn:hover {
+    background: #1e40af;
+}
+
+.nav-buttons {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+</style>
+
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='rgz/search.js') }}"></script>
+{% endblock %}
