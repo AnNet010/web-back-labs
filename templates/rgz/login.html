@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block lab %}Вход{% endblock %}
+
+{% block main %}
+<style>
+    h1 {
+        color: #1e40af;
+        font-size: 32px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .form-container {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: #f9fafb;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .form-container label {
+        display: block;
+        margin-bottom: 15px;
+        font-weight: 500;
+        color: #1f2937;
+    }
+
+    .form-container input {
+        width: 100%;
+        padding: 10px 12px;
+        margin-top: 5px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 1em;
+        transition: border-color 0.2s;
+    }
+
+    .form-container input:focus {
+        border-color: #2563eb;
+        outline: none;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #2563eb;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .form-container button:hover {
+        background-color: #1e40af;
+        transform: scale(1.03);
+    }
+
+    .error-message {
+        color: #dc2626;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+</style>
+
+<h1>Вход в систему</h1>
+
+<div class="form-container">
+    {% if error %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" id="login-form">
+        <label>
+            Логин:
+            <input type="text" name="login" required>
+        </label>
+
+        <label>
+            Пароль:
+            <input type="password" name="password" required>
+        </label>
+
+        <button type="submit">Войти</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='rgz/login.js') }}"></script>
+{% endblock %}
