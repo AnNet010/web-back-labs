@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block lab %}Мои лайки{% endblock %}
+
+{% block main %}
+<style>
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.profile-card {
+    padding: 15px;
+    border-radius: 10px;
+    background: #f3f4f6;
+    border-left: 4px solid #2563eb;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete-btn {
+    background-color: #dc2626;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+.delete-btn:hover {
+    background-color: #b91c1c;
+}
+</style>
+
+<h1>Мои лайки</h1>
+
+{% if likes %}
+    <div class="cards-container" id="results-container">
+        {% for user in likes %}
+            <div class="profile-card" data-user-id="{{ user.user_id }}">
+                <div>
+                    <strong>{{ user.full_name }}</strong><br>
+                    Возраст: {{ user.age }}<br>
+                    Пол: {{ user.gender }}
+                </div>
+                <button class="delete-btn">Удалить</button>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>Вы пока никому не ставили лайки.</p>
+{% endif %}
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='rgz/my_likes.js') }}"></script>
+{% endblock %}
