@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block lab %}Совпадения{% endblock %}
+
+{% block main %}
+<style>
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.profile-card {
+    padding: 15px;
+    border-radius: 10px;
+    background: #f3f4f6;
+    border-left: 4px solid #16a34a;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.profile-card p {
+    margin: 5px 0;
+}
+
+.no-matches {
+    font-style: italic;
+    color: #555;
+}
+</style>
+
+<h1>Ваши совпадения</h1>
+
+{% if matches %}
+    <div class="cards-container">
+        {% for user in matches %}
+            <div class="profile-card">
+                <strong>{{ user.full_name }}</strong><br>
+                <p>Возраст: {{ user.age }}</p>
+                <p>Пол: {{ user.gender }}</p>
+                <p>Контакт для связи: {{ user.contact if user.contact else 'Не указан' }}</p>
+                {% if user.about %}
+                    <p>О себе: {{ user.about }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="no-matches">Совпадений пока нет.</p>
+{% endif %}
+{% endblock %}
