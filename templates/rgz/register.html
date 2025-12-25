@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block lab %}Регистрация{% endblock %}
+
+{% block main %}
+<h1>Регистрация</h1>
+
+<div class="form-container">
+    {% if error %}
+        <div class="error-message">{{ error }}</div>
+    {% endif %}
+    <form method="post" id="register-form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Логин:</label>
+            <input type="text" name="login" required>
+        </div>
+
+        <div class="form-group">
+            <label>Пароль:</label>
+            <input type="password" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <label>Полное имя:</label>
+            <input type="text" name="full_name" required>
+        </div>
+
+        <div class="form-group">
+            <label>Возраст:</label>
+            <input type="number" name="age" min="18" max="100" required>
+        </div>
+
+        <div class="form-group">
+            <label>Пол:</label>
+            <select name="gender" required>
+                <option value="Мужчина">Мужчина</option>
+                <option value="Женщина">Женщина</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>О себе:</label>
+            <textarea name="about" rows="4" placeholder="Напишите немного о себе..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Контакт для связи:</label>
+            <input type="text" name="contact" placeholder="Email / телефон / соцсети">
+        </div>
+
+        <!-- Галочка "Загрузить фото" -->
+        <div class="form-group checkbox-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="add-photo-checkbox">
+                <span>Загрузить фото</span>
+            </label>
+        </div>
+
+        <!-- Блок для загрузки фото -->
+        <div id="photo-block" class="form-group">
+            <label>Выберите фото:</label>
+            <input type="file" name="photo" id="photo-input" accept="image/*">
+        </div>
+
+        <button type="submit" class="submit-btn">Зарегистрироваться</button>
+    </form>
+</div>
+
+<style>
+.form-container {
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #f9fafb;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 1em;
+    outline: none;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Кнопка */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+}
+.submit-btn:hover {
+    background-color: #1e40af;
+}
+
+/* Сообщение об ошибке */
+.error-message {
+    color: #dc2626;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Чекбокс с текстом рядом */
+.checkbox-group {
+    margin-bottom: 20px;
+}
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.checkbox-label input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+}
+
+/* Скрытый блок для фото */
+#photo-block {
+    display: none;
+}
+</style>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='rgz/register.js') }}"></script>
+{% endblock %}
