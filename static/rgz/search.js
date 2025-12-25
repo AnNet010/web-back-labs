@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch(`/api/search?${params.toString()}`);
             const data = await response.json();
 
-            resultsContainer.innerHTML = '';р
+            resultsContainer.innerHTML = '';
 
             
             if (response.ok && data.results.length > 0) {
